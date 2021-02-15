@@ -24,6 +24,11 @@ class SortieFormType extends AbstractType
                 'label' => 'Nom de la sortie'])
             ->add('StartedDateTime', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
+                "minutes" => [
+                    '00','05','10',
+                    '15','20','25',
+                    '30','35','40',
+                    '45','50','55']
                ])
             ->add('duration',IntegerType::class, [
                 'label' => 'Durée'] )

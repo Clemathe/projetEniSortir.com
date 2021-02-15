@@ -8,6 +8,7 @@ body {
 .flash {
     display: block;
     color: #FFF;
+    margin-top: 5px;
     padding: 20px;
     font-size: 24px;
     font-weight: bold;

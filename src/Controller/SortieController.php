@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Entity\User;
 use App\Form\SortieFormType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +33,10 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
-            $sortie->setOrganiser(null); //TODO: recuperer l'utilisateur en session
+            //recupere l'user en session et instancie un organisteur
+            $organiser = new user();
+            //TODO: recuperer l'utilisateur en session et setter $organiser
+            $sortie->setOrganiser($organiser);
 
             // instancie Etat et récupère l'état via les boutons publier ou enregistrer
             $etat = new etat();
@@ -40,18 +44,18 @@ class SortieController extends AbstractController
             $sortie->setEtat($etat);
             dump($request->request->get("etat"));
 
-
 //            $em->persist($sortie);
 //            $em->flush();
 
+            //Gestion de l'affichage d'un message de succès ou d'echec
             if ($etat->getId() == 2){
                 $this->addFlash('success', 'La sortie a été publiée');
-
-            }else {
+            }else if ($etat->getId() == 1) {
                 $this->addFlash('success', 'La sortie a été sauvegardée');
+            }else{
+                $this->addFlash('error', 'Un problème est survenu');
             }
-            return $this->redirectToRoute('home',
-                []);
+            return $this->redirectToRoute('home', []);
 
         }
 
