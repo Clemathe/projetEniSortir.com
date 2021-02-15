@@ -65,6 +65,13 @@ class Sortie
      */
     private $organiser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $lieu;
+
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -205,6 +212,20 @@ class Sortie
 
         return $this;
     }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+
 
 
 }
