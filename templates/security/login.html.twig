@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="container" id="login">
+        <div class="row justify-content-center">
+
+            <div id="registerForm" class="col-lg-7 col-md-10 col-mb-10">
+
+                <div class="jumbotron"><span class="align-middle"></span>
+
+
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                Vous etes connecté(e) en tant que:  {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se
+                                    deconnecter</a>
+                            </div>
+                        {% endif %}
+
+                        <h1 class="h3 mb-3 font-weight-normal">Connectez vous!</h1>
+                        <label for="inputUsername">saisissez votre pseudo</label>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                               class="form-control" required autofocus>
+                        <label for="inputPassword">saisissez votre mot de passe </label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"
+                            >
+
+                            <div class="checkbox mb-3">
+                                <label>
+                                    <input type="checkbox" name="_remember_me"> Remember me
+                                </label>
+                            </div>
+
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                Sign in
+                            </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
