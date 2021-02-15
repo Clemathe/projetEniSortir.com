@@ -278,18 +278,18 @@ class User implements UserInterface
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSorty(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSorty(Sortie $sortie): self
     {
-        $this->sorties->removeElement($sorty);
+        $this->sorties->removeElement($sortie);
 
         return $this;
     }
