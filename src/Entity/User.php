@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -59,6 +61,28 @@ class User implements UserInterface
      */
     private $actif;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Campus::class, mappedBy="user")
+     */
+    private $campus;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="users")
+     */
+    private $sorties;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organiser")
+     */
+    private $eventCreated;
+
+    public function __construct()
+    {
+        $this->campus = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+        $this->eventCreated = new ArrayCollection();
+
+    }
 
     public function getId(): ?int
     {
@@ -215,6 +239,92 @@ class User implements UserInterface
     {
         $this->actif = $actif;
     }
+
+    /**
+     * @return Collection|Campus[]
+     */
+    public function getCampus(): Collection
+    {
+        return $this->campus;
+    }
+
+    public function addCampus(Campus $campus): self
+    {
+        if (!$this->campus->contains($campus)) {
+            $this->campus[] = $campus;
+            $campus->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCampus(Campus $campus): self
+    {
+        if ($this->campus->removeElement($campus)) {
+            // set the owning side to null (unless already changed)
+            if ($campus->getUser() === $this) {
+                $campus->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sortie $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sortie $sorty): self
+    {
+        $this->sorties->removeElement($sorty);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getEventCreated(): Collection
+    {
+        return $this->eventCreated;
+    }
+
+    public function addEventCreated(Sortie $eventCreated): self
+    {
+        if (!$this->eventCreated->contains($eventCreated)) {
+            $this->eventCreated[] = $eventCreated;
+            $eventCreated->setOrganiser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventCreated(Sortie $eventCreated): self
+    {
+        if ($this->eventCreated->removeElement($eventCreated)) {
+            // set the owning side to null (unless already changed)
+            if ($eventCreated->getOrganiser() === $this) {
+                $eventCreated->setOrganiser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 
