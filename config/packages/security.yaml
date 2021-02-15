@@ -5,6 +5,11 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
                     #verif
 
     firewalls:
@@ -13,7 +18,8 @@ security:
             security: false
         main:
             pattern : ^/
-            anonymous: true
+            anonymous: lazy
+            provider: app_user_provider
             form_login:
                 login_path: login
                 check_path: login
@@ -26,6 +32,7 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
+
 
 
             # activate different ways to authenticate
