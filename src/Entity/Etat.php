@@ -14,7 +14,6 @@ class Etat
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -37,6 +36,13 @@ class Etat
     public function getId(): ?int
     {
         return $this->id;
+    }
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getLibelle(): ?string

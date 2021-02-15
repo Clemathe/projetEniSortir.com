@@ -1,0 +1,23 @@
+
+body {
+
+    /*background-color: #3be6c4;*/
+    font-family: 'Roboto Mono', monospace;
+}
+
+.flash {
+    display: block;
+    color: #FFF;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.flash-success {
+    background-color: #0c6251;
+}
+
+.flash-error {
+    background-color: darkred;
+}
