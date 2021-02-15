@@ -71,6 +71,12 @@ class Sortie
      */
     private $lieu;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
+
 
     public function __construct()
     {
@@ -221,6 +227,18 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }
