@@ -1,0 +1,20 @@
+{% extends'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div id="registerForm" class="col-lg-7 col-md-10 col-mb-10">
+
+                <div class="jumbotron"><span class="align-middle"></span>
+                    <h2 class="display-4"> Inscrivez vous!</h2>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-outline-success">S'inscrire</button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block title %}S'inscrire{% endblock %}

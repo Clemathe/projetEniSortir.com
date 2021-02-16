@@ -28,8 +28,8 @@ security:
                 lifetime: 604800 # 1 week in seconds
                 path: /
             logout:
-                path: logout
-                target: /
+                path: /logout
+                target: home
             lazy: true
             guard:
                 authenticators:

@@ -2,7 +2,7 @@
 body {
 
     /*background-color: #3be6c4;*/
-    font-family: 'Roboto Mono', monospace;
+    /*font-family: 'Roboto Mono', monospace;*/
 }
 
 .flash {
@@ -21,4 +21,8 @@ body {
 
 .flash-error {
     background-color: darkred;
+}
+
+.jumbotron{
+    margin-top: 10%;
 }
