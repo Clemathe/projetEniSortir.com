@@ -3,8 +3,10 @@
 namespace App\Form;
 
 
+use App\Entity\Campus;
 use App\Entity\User;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -42,7 +44,9 @@ class UserType extends AbstractType
             ->add('telephone', TelType::class,[
                 'attr' => ['placeholder' => 'Votre numéro de téléphone']])
 
-            ->add('campus', TextType::class,[
+            ->add('campus', EntityType::class,[
+                'class'=> Campus::class,
+                'choice_label' => 'name',
                 'attr'=>['placeholder'=>'indiquez votre campus']
             ])
             ->add('password', RepeatedType::class, [
