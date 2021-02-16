@@ -27,12 +27,12 @@ class UserType extends AbstractType
                 'required' => true,
                 'attr' => ['placeholder' => 'dupont']
             ])
-            ->add('username', TextType::class, [
+            ->add('surname', TextType::class, [
                 'label' => 'Prénom:',
                 'required' => true,
                 'attr' => ['placeholder' => 'jean']
             ])
-            ->add('surname', TextType::class, [
+            ->add('username', TextType::class, [
                 'label' => 'Pseudo:',
                 'required' => true,
                 'attr' => ['placeholder' => 'Votre pseudo']

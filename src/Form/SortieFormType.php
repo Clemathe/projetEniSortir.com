@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use phpDocumentor\Reflection\DocBlock\Description;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -36,10 +37,13 @@ class SortieFormType extends AbstractType
             ->add('deadline',DateType::class, [
                 'label' => 'Date limite d\'inscription'])
             ->add('maxNbOfRegistration', IntegerType::class, [
-                'label' => 'Nombre de particpant maximum']  )
+                'label' => 'Nombre de particpant maximum'])
             ->add('Description', TextareaType::class, ['label' => 'Description'])
-            ->add('ville')
-            ->add('campus',textareaType::class, ['attr' => ['value' => 'zaza']])
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'mapped'=>false
+            ])
+            ->add('campus',textType::class, ['attr' => ['value' => 'zaza']])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class
             ])
