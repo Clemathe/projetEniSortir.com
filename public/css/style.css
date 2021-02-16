@@ -1,11 +1,9 @@
 
 body {
-
     /*background-color: #3be6c4;*/
     /*font-family: 'Roboto Mono', monospace;*/
 }
-
-.flash {
+.alert {
     display: block;
     color: #FFF;
     margin-top: 5px;
@@ -13,14 +11,6 @@ body {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-}
-
-.flash-success {
-    background-color: #0c6251;
-}
-
-.flash-error {
-    background-color: darkred;
 }
 
 .jumbotron{
