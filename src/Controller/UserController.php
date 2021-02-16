@@ -28,6 +28,7 @@ class UserController extends AbstractController
             $user->setPassword($password);
             $em->persist($user);
             $em->flush();
+            $this->addFlash('success', 'Bienvenue dans l\'aventure, votre inscritpion a bien été prise en compte!');
             return $this->redirectToRoute('home');
 
         }
@@ -45,11 +46,14 @@ class UserController extends AbstractController
     /**
      * @Route ("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editProfil(Request $request, User $user){
+    public function editProfil(Request $request, User $user,UserPasswordEncoderInterface $encoder){
         $form = $this->createForm(UserType::class,$user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+            $password = $encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($password);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'La modification a été enregistrée');
             return $this->redirectToRoute('user_profil');
         }
         return  $this->render('user/edit.html.twig',[
