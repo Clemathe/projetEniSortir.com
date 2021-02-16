@@ -20,6 +20,7 @@ class UserController extends AbstractController
     {
         $user = new User();
         $user->setActif(1);
+        $user->setRoles();
         $form = $this->createForm(UserType::class,$user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){

@@ -24,7 +24,7 @@ class Etat
     private $libelle;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="etat")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="etat", cascade={"persist"})
      */
     private $sorties;
 

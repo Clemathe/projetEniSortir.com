@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use phpDocumentor\Reflection\DocBlock\Description;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,8 +38,11 @@ class SortieFormType extends AbstractType
             ->add('maxNbOfRegistration', IntegerType::class, [
                 'label' => 'Nombre de particpant maximum']  )
             ->add('Description', TextareaType::class, ['label' => 'Description'])
-            ->add('campus')
-            ->add('lieu')
+            ->add('ville')
+            ->add('campus',textareaType::class, ['attr' => ['value' => 'zaza']])
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class
+            ])
         ;
     }
 

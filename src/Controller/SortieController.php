@@ -6,12 +6,16 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieFormType;
+use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class SortieController
@@ -20,11 +24,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SortieController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * @Route("/new", name="sortie_add")
      */
-    public function add(EntityManagerInterface $em, Request $request ): Response
+    public function add(EntityManagerInterface $em, Request $request, Sortie $sortie = null, UserRepository $userRepo, EtatRepository $etatRepo): Response
     {
         $sortie = new sortie();
 
@@ -33,19 +43,23 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
-            //recupere l'user en session et instancie un organisteur
-            $organiser = new user();
-            //TODO: recuperer l'utilisateur en session et setter $organiser
+            //recuperer l'user en session et instancie un organisteur
+
+            $id = $this->security->getUser()->getId();
+            $organiser = $userRepo->find($id);
+
+            $organiser->addEventCreated($sortie);
             $sortie->setOrganiser($organiser);
 
             // instancie Etat et récupère l'état via les boutons publier ou enregistrer
-            $etat = new etat();
-            $etat->setId($request->request->get('etat'));
-            $sortie->setEtat($etat);
-            dump($request->request->get("etat"));
 
-//            $em->persist($sortie);
-//            $em->flush();
+            $id = $request->request->get('etat');
+            $etat = $etatRepo->find($id);
+            $sortie->setEtat($etat);
+            dd($etat);
+
+            $em->persist($sortie);
+            $em->flush();
 
             //Gestion de l'affichage d'un message de succès ou d'echec
             if ($etat->getId() == 2){
