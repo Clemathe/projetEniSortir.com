@@ -66,11 +66,6 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity=Campus::class, mappedBy="user")
-     */
-    private $campus;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="users")
      */
     private $sorties;
@@ -80,9 +75,14 @@ class User implements UserInterface
      */
     private $eventCreated;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="users")
+     */
+    private $campus;
+
     public function __construct()
     {
-        $this->campus = new ArrayCollection();
+
         $this->sorties = new ArrayCollection();
         $this->eventCreated = new ArrayCollection();
 
@@ -244,35 +244,6 @@ class User implements UserInterface
         $this->actif = $actif;
     }
 
-    /**
-     * @return Collection|Campus[]
-     */
-    public function getCampus(): Collection
-    {
-        return $this->campus;
-    }
-
-    public function addCampus(Campus $campus): self
-    {
-        if (!$this->campus->contains($campus)) {
-            $this->campus[] = $campus;
-            $campus->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCampus(Campus $campus): self
-    {
-        if ($this->campus->removeElement($campus)) {
-            // set the owning side to null (unless already changed)
-            if ($campus->getUser() === $this) {
-                $campus->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Sortie[]
@@ -324,6 +295,18 @@ class User implements UserInterface
                 $eventCreated->setOrganiser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }

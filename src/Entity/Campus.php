@@ -30,13 +30,17 @@ class Campus
     private $sortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="campus")
+     * @ORM\OneToMany(targetEntity=user::class, mappedBy="campus")
      */
-    private $user;
+    private $users;
+
+
 
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
+        $this->users = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -86,15 +90,35 @@ class Campus
         return $this;
     }
 
-    public function getUser(): ?User
+    /**
+     * @return Collection|user[]
+     */
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function setUser(?User $user): self
+    public function addUser(user $user): self
     {
-        $this->user = $user;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCampus($this);
+        }
 
         return $this;
     }
+
+    public function removeUser(user $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCampus() === $this) {
+                $user->setCampus(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
