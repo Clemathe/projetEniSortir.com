@@ -6,8 +6,8 @@
             <div id="registerForm" class="col-lg-7 col-md-10 col-mb-10">
 
                 <div class="jumbotron"><span class="align-middle"></span>
-                    <h1 > Inscrivez vous!</h1>
-                  {{ include('user/_form.html.twig') }}
+                    <h1 > Modifier le profil</h1>
+                    {{ include('user/_form.html.twig',{'button_label': 'valider la modification'}) }}
                 </div>
             </div>
         </div>
