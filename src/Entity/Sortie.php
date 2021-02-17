@@ -185,7 +185,7 @@ class Sortie
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->addSorty($this);
+            $user->addSortie($this);
         }
 
         return $this;

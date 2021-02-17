@@ -273,7 +273,7 @@ class User implements UserInterface
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sortie): self
+    public function addSortie(Sortie $sortie): self
     {
         if (!$this->sorties->contains($sortie)) {
             $this->sorties[] = $sortie;
@@ -282,7 +282,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeSorty(Sortie $sortie): self
+    public function removeSortie(Sortie $sortie): self
     {
         $this->sorties->removeElement($sortie);
 
@@ -333,8 +333,10 @@ class User implements UserInterface
         return $this;
     }
 
-
-
+    public function __toString()
+    {
+        return $this->campus;
+    }
 
 
 }
