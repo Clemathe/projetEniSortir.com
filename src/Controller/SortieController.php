@@ -80,20 +80,39 @@ class SortieController extends AbstractController
      */
     public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
     {
-        $idSortie = $request->request->get('id');
+        $idSortie = $request->request->get('idSortie');
         $sortie = $sortieRepo->find($idSortie);
 
-        /* @var $user User */
-        $user = $this->security->getUser();
-        $user->addSortie($sortie);
-        $em->persist($user);
-        $em->flush();
+        // Si les inscriptions sont ouvertes
+        if ($sortie->getEtat()->getLibelle() == 'Ouverte') {
 
-        if ($user->getSorties()[($user->getSorties()->count()) - 1]->getId() == $sortie->getId()){
-                $this->addFlash('success', 'Vous êtes inscrits');
+            // Si la date limite pour les inscritptions n'est pas dépassée
+            if ($sortie->getDeadline() > new \DateTime()) {
+
+                // Si le nombre maximum de participants n'est pas depassé
+                if ($sortie->getMaxNbOfRegistration() <= $sortie->getUsers()->count() ) {
+
+                    /* @var $user User */
+                    $user = $this->security->getUser();
+
+                    $user->addSortie($sortie);
+                    $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
+
+                    $em->persist($user);
+                    $em->flush();
+
+                    $this->addFlash('success', 'Vous êtes inscrits');
+
+                }else{
+                    $this->addFlash('error', 'Le nombre maximun de participant est déjà atteint');
+                }
+            } else {
+                $this->addFlash('error', 'La date d\'inscription est dépassée');
+            }
         }else{
-            $this->addFlash('error', 'Un problème est survenu');
+            $this->addFlash('error', 'Les inscriptions ne sont pas ouvertes');
         }
+
         return $this->redirectToRoute('home');
     }
 
@@ -102,21 +121,46 @@ class SortieController extends AbstractController
      */
     public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
     {
-        /* @var $user User*/
-        $user = $this->security->getUser();
-
-        $idSortie = $request->request->get('id');
+        $idSortie = $request->request->get('idSortie');
         $sortie = $sortieRepo->find($idSortie);
-        $nbDeSortie = $user->getSorties()->count();
 
-        $user->removeSortie($sortie);
-        $em->persist($user);
-        $em->flush();
+        // Si la date actuelle est plus petite que la date de la sortie
+        if( new \DateTime < $sortie->getStartedDateTime())
+        {
+            /* @var $user User */
+            $user = $this->security->getUser();
 
+            $user->removeSortie($sortie);
+            $sortie->removeUser($user); //TODO Faut il mieux le coder dans la méthode removeSortie de User ou inversement ?
 
-        $this->addFlash('error', 'Vous êtes desinscrits');
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'Vous êtes desinscrits de la sortie');
+        }else{
+            $this->addFlash('error', 'La sortie a déjà commencée, impossible de se désinscrire');
+        }
 
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/annulation", name="sortie_annulation")
+     */
+    public function annulation(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    {
+        /* @var $user User */
+        $user = $this->security->getUser();
+
+        $idSortie = $request->request->get('idSortie');
+        $sortie = $sortieRepo->find($idSortie);
+
+        // Si l'id utilisateur est égal à l'id organisateur
+        if($user->getId() == $sortie->getOrganiser()->getId())
+        {
+            $particpants = $sortie->getUsers();
+        }
+
     }
 
 
