@@ -47,7 +47,7 @@ class Sortie
     /**
      * @ORM\Column(type="string", length=3000)
      */
-    private $Description;
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sortie")
@@ -151,12 +151,12 @@ class Sortie
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): self
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }

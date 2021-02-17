@@ -2,14 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
+
 use App\Entity\Sortie;
-use App\Entity\User;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
-use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
