@@ -27,7 +27,15 @@ class UserController extends AbstractController
             $password = $encoder->encodePassword($user,$user->getPassword());
             $user->setPassword($password);
             $em->persist($user);
-            $em->flush();
+            try {
+                $em->flush();
+            }catch (\Exception $error){
+                $this->addFlash("danger","creation de votre compte impossible");
+                return $this->render("user/inscription.html.twig",[
+                    "form"=>$form->createView(),
+                    "user"=>$user,
+                ]);
+            }
             $this->addFlash('success', 'Bienvenue dans l\'aventure, votre inscritpion a bien été prise en compte!');
             return $this->redirectToRoute('home');
 
@@ -50,6 +58,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class,$user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+
             $password = $encoder->encodePassword($user,$user->getPassword());
             $user->setPassword($password);
             $user->setRoles(['ROLE_ADMIN']);

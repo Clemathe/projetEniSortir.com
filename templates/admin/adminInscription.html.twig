@@ -1,0 +1,17 @@
+{% extends'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div id="registerForm" class="col-lg-7 col-md-10 col-mb-10">
+
+                <div class="jumbotron"><span class="align-middle"></span>
+                    <h1 > Inserer un utilisateur</h1>
+                  {{ include('user/_form.html.twig',{'button_label': 'Inserer'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block title %}creation utilisateur{% endblock %}
