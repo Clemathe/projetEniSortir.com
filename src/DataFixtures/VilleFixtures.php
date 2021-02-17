@@ -6,20 +6,26 @@ use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Faker\Provider\Address;
 
 class VilleFixtures extends Fixture
 {
+    public const VILLE_REFERENCE = 'ville';
+
     public function load(ObjectManager $manager)
     {
+        $faker = Faker\Factory::create('fr_FR');
+
         for ($i = 0; $i < 10; $i++) {
-            $faker = Faker\Factory::create('fr_FR');
+
             $ville = new Ville();
             $ville->setName($faker->city);
-            $ville->setCodePostal(10000);
-            $manager->persist($ville);
+            $ville->setCodePostal(Address::postcode());
 
-//        $this->addReference($ville->getId());
+            $manager->persist($ville);
             $manager->flush();
+
+            $this->addReference(self::VILLE_REFERENCE, $ville);
         }
     }
 

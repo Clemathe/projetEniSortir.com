@@ -194,7 +194,7 @@ class Sortie
     public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
-            $user->removeSorty($this);
+            $user->removeSortie($this);
         }
 
         return $this;
