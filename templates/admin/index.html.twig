@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}administration{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <a href="{{ path('user_inscription') }}" class="btn btn-info" id="bouton-shadow">Créer un utilisateur</a>
+    </div>
+
+    {% if users | length > 0 %}
+        <div class="table-responsive pre-scrollable table-bordered table-info">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Téléphone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Campus</th>
+
+                </tr>
+                </thead>
+                {% for user in users %}
+                    <tr>
+                        <td><a href="{{ path('user_profil', {id: user.id}) }}">{{ user.username }}</a></td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.surname }}</td>
+                        {% if user.telephone is null %}
+                            <td>Non renseigné</td>
+                        {% else %}
+                            <td>{{ user.telephone }}</td>
+                        {% endif %}
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.campus }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

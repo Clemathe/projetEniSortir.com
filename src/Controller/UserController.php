@@ -52,6 +52,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $password = $encoder->encodePassword($user,$user->getPassword());
             $user->setPassword($password);
+            $user->setRoles(['ROLE_ADMIN']);
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'La modification a été enregistrée');
             return $this->redirectToRoute('user_profil');

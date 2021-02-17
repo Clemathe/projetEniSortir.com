@@ -6,16 +6,20 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <a class="navbar-brand">Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
+      {% endif %}
+
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('home') }}">Home
+                <a class="nav-link" href="{{ path('home') }}">Acceuil
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('sortie_add') }}">Créer une sortie</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('sortie_add') }}">Créer une sortie</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('user_profil') }}">Profil</a>
                 </li>
@@ -25,13 +29,19 @@
 
 
             {% else %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{path('user_inscription') }}">S'inscrire</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('user_inscription') }}">S'inscrire</a>
+                </li>
             {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin')}}">Administration</a>
+                </li>
+            {% endif %}
+
         </ul>
     </div>
 </nav>

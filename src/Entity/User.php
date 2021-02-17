@@ -38,12 +38,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Email(
-     *     message = "l'email '{{ value }}' n'est pas un email valide.")
+     * @Assert\Regex("/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/", message="C'est pas un mail ça ?")
      */
     private $email;
 
     /**
+     * @Assert\Regex("/^0[1-68]([-. ]?[0-9]{2}){4}$/", message="et ton vrai numéro !")
      * @ORM\Column(type="string", length=180)
      */
     private $telephone;
@@ -64,6 +64,10 @@ class User implements UserInterface
      */
     private $actif;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $urlPhoto;
 
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="users")
@@ -86,6 +90,22 @@ class User implements UserInterface
         $this->sorties = new ArrayCollection();
         $this->eventCreated = new ArrayCollection();
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlPhoto()
+    {
+        return $this->urlPhoto;
+    }
+
+    /**
+     * @param mixed $urlPhoto
+     */
+    public function setUrlPhoto($urlPhoto): void
+    {
+        $this->urlPhoto = $urlPhoto;
     }
 
     public function getId(): ?int
@@ -298,6 +318,8 @@ class User implements UserInterface
 
         return $this;
     }
+
+
 
     public function getCampus(): ?Campus
     {
