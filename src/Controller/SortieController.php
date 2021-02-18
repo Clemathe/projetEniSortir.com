@@ -10,6 +10,7 @@ use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,15 +95,21 @@ class SortieController extends AbstractController
 
                     /* @var $user User */
                     $user = $this->security->getUser();
+                    
+                    // si l'user n'est pas déjà inscrit
+                    if (!$sortie->getUsers()->contains($user)){
+                        
+                        $user->addSortie($sortie);
+                        $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
 
-                    $user->addSortie($sortie);
-                    $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
+                        $em->persist($user);
+                        $em->flush();
 
-                    $em->persist($user);
-                    $em->flush();
-
-                    $this->addFlash('success', 'Vous êtes inscrits');
-
+                        $this->addFlash('success', 'Vous êtes inscrits');
+                    }
+                    else{
+                        $this->addFlash('error', 'Vous êtes déjà inscrit');
+                    }
                 }else{
                     $this->addFlash('error', 'Le nombre maximun de participant est déjà atteint');
                 }
