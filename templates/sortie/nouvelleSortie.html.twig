@@ -3,21 +3,36 @@
 {% block body %}
     <div class="container">
         <div class="row justify-content-center">
-
-            <div id="registerForm" class="col-lg-7 col-md-10 col-mb-10">
-
+            <div id="registerForm" class="col-lg-12 col-md-12 col-mb-10">
                 <div class="jumbotron">
-
                     <h1>Créer une sortie</h1>
+                    <div class="row">
 
-                    {{ form_start(sortieForm) }}
-                    {{ form_widget(sortieForm) }}
 
-                    <button class="btn btn-primary" type="submit" name="etat" value="1">Enregistrer</button>
-                    <button class="btn btn-primary" type="submit" name="etat" value="2">Publier</button>
-                    <button class="btn btn-primary" type="reset">Annuler</button>
+                        <div class="col-lg-6">
+                            {{ form_start(sortieForm) }}
+                            {{ form_row(sortieForm.name) }}
+                            {{ form_row(sortieForm.StartedDateTime) }}
+                            {{ form_row(sortieForm.duration) }}
+                            {{ form_row(sortieForm.deadline) }}
+                            {{ form_row(sortieForm.description) }}
+                        </div>
 
-                    {{ form_start(sortieForm) }}
+                        <div class="col-lg-6">
+                            {{ form_widget(sortieForm) }}
+
+
+
+                            {{ form_end(sortieForm) }}
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-4 ">
+
+                        <button class="btn btn-primary ml-2" type="submit" name="etat" value="1">Enregistrer</button>
+                        <button class="btn btn-primary ml-2" type="submit" name="etat" value="2">Publier</button>
+                        <button class="btn btn-primary ml-2" type="reset">Annuler</button>
+                    </div>
                 </div>
             </div>
         </div>

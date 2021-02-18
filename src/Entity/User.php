@@ -97,6 +97,10 @@ class User implements UserInterface
      */
     public function getUrlPhoto()
     {
+        if($this->urlPhoto == null){
+            return 'https://via.placeholder.com/640x480/159277/FFFFFFF?Text=' . $this->getUsername();
+        }
+
         return $this->urlPhoto;
     }
 
@@ -332,6 +336,7 @@ class User implements UserInterface
 
         return $this;
     }
+
 
     public function __toString()
     {
