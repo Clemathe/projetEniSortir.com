@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Acceuil{% endblock %}
 {% block body %}
+
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-lg-2" >
@@ -8,16 +9,33 @@
             </div>
             <div class="col-md-9 col-lg-10">
                 <div class="grid">
-                    {% for sortie in sorties %}
-                        <div class="card text-black-50 bg-light mb-3" style="max-width: 20rem;"><a style="" href="{{ path('detailSortie_detail',{'id': sortie.id}) }}">
-                            <div class="card-header">{{ sortie.name |capitalize }} | démarre le: {{ sortie.StartedDateTime | date('d/m/y') }}</div>
-                            <div class="card-body">
 
-                                <h4 class="card-title">Places disponibles: {{ sortie.maxNbOfRegistration - sortie.users|length}}</h4>
-                                <p>Adresse</p>
-                                <p class="card-text">{{ sortie.lieu.ville }}</p>
+                    {% for sortie in sorties %}
+                        <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                            <div class="mainflip">
+                                <div class="frontside">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h4 class="card-title">{{ sortie.name |capitalize }} </h4>
+                                            <p class="card-text">démarre le: {{ sortie.StartedDateTime | date('d/m/y') }}</p>
+                                            <p class="card-text">Places disponibles: {{ sortie.maxNbOfRegistration - sortie.users|length}}</p>
+                                            <h4 class="card-title">Adresse</h4>
+                                            <p class="card-text">{{ sortie.lieu.ville }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="backside">
+                                    <div class="card">
+                                        <div class="card-body text-center mt-4">
+                                            <h4 class="card-title">Description</h4>
+                                            <p class="card-text">{{ sortie.description | u.truncate(250) }}...</p>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            </a></div>
+                        </div>
+
                     {% endfor %}
                 </div>
             </div>
