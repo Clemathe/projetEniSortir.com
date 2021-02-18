@@ -32,27 +32,27 @@
                     </div>
                     <div class=" mb-2">
                         <p class="d-inline  ">Lieu :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.name | capitalize  }}</p>
+                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.name | capitalize }}</p>
                     </div>
                     <div class=" mb-2">
                         <p class="d-inline  ">Rue :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue | capitalize  }}</p>
+                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue | capitalize }}</p>
                     </div>
                     <div class=" mb-2">
                         <p class="d-inline  ">Code Postal :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue   }}</p>
+                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue }}</p>
                     </div>
                     <div class=" mb-2">
                         <p class="d-inline  ">Longitude :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.longitude  }}</p>
+                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.longitude }}</p>
                     </div>
                     <div class=" mb-2">
                         <p class="d-inline  ">Latittude :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.latitude   }}</p>
+                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.latitude }}</p>
                     </div>
                     <div>
                         <p>Particpants :</p>
-                        <table class="table table-hover">
+                        <table class=" pre-scrollable table-bordered table table-hover">
                             <thead>
                             <tr>
 
@@ -63,11 +63,12 @@
                             </thead>
                             <tbody>
                             {% for user in sortie.users %}
-                            <tr>
-                                <td>{{ user.username }}</td>
-                                <td>{{ user.name }}</td>
-                                <td>{{ user.surname }}</td>
-                            </tr>
+
+                            <a href="{{ path('other_user_profil', {id: user.id}) }}"> <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.surname }}</td>
+                                    </tr></a>
                             {% endfor %}
 
                             </tbody>
@@ -84,8 +85,7 @@
                     </div>
 
 
-
-                    <button class="btn btn-primary" type="submit" name="etat" value="1">S'inscrire</button>
+                    <a href="{{ path('sortie_inscription', {id : sortie.id}) }}"><button class="btn btn-primary"  >S'inscrire</button></a>
 
                 </div>
             </div>

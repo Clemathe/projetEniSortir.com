@@ -23,7 +23,6 @@ class DetailSortieController extends AbstractController
         $sortie = $sortieRepo->find($id);
 
 
-
         return $this->render('sortie/DetailSortie.html.twig', [
             'sortie' => $sortie,
 

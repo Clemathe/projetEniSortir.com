@@ -77,18 +77,20 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/inscription", name="sortie_inscription")
+     * @Route("/inscription/{id}", name="sortie_inscription", requirements={"id" : "\d+"})
      */
-    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id)
     {
-        $idSortie = $request->request->get('idSortie');
-        $sortie = $sortieRepo->find($idSortie);
+        $sortie = $sortieRepo->find($id);
+        dump('$sortie');
 
         // Si les inscriptions sont ouvertes
         if ($sortie->getEtat()->getLibelle() == 'Ouverte') {
+            dump('a');
 
             // Si la date limite pour les inscritptions n'est pas dépassée
             if ($sortie->getDeadline() > new \DateTime()) {
+                dump('a');
 
                 // Si le nombre maximum de participants n'est pas depassé
                 if ($sortie->getMaxNbOfRegistration() <= $sortie->getUsers()->count() ) {
@@ -98,7 +100,7 @@ class SortieController extends AbstractController
                     
                     // si l'user n'est pas déjà inscrit
                     if (!$sortie->getUsers()->contains($user)){
-                        
+                        dump('a');
                         $user->addSortie($sortie);
                         $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
 

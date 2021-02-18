@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserController extends AbstractController
 {
@@ -47,10 +49,31 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/profil", name="user_profil")
+     * @Route("/user/profil/{id}", name="other_user_profil", requirements={"id" : "\d+"})
      */
-    public function profilView(){
-        return $this->render('user/profil.html.twig');
+    public function profilView(UserRepository $userRepo, $id = null, Security $security){
+
+        if(isset($id)){
+            $user = $userRepo->find($id);
+        }else{
+            $user = $security->getUser();
+        }
+
+        return $this->render('user/profil.html.twig',[
+            'user' => $user]);
     }
+//    /**
+//     * @Route("/user/profil/{id}", name="user_profil", requirements={"id" : "\d+"})
+//     */
+//    public function otherProfilView(UserRepository $userRepo, $id){
+//
+//        $user = $userRepo->find($id);
+//
+//        return $this->render('user/profil.html.twig',[
+//        'user' => $user]);
+//    }
+
+
     /**
      * @Route ("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */

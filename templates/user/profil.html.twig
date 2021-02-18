@@ -10,30 +10,36 @@
                         <tbody>
                         <tr class="table-light">
                             <th scope="row">Nom: </th>
-                            <td>{{ app.user.name }}</td>
+                            <td>{{ user.name }}</td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Prénom: </th>
-                            <td>{{ app.user.surname }}</td>
+                            <td>{{ user.surname }}</td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Pseudo: </th>
-                            <td>{{ app.user.username }}</td>
+                            <td>{{ user.username }}</td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">email: </th>
-                            <td>{{ app.user.email }}</td>
+                            <td>{{ user.email }}</td>
                         </tr>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">telephone: </th>
-                            <td>{{ app.user.telephone }}</td>
+                            <td>{{ user.telephone }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">campus: </th>
+                            <td>{{ user.campus.name }}</td>
                         </tr>
 
                         </tbody>
                     </table>
                     <hr class="my-4">
+                    {% if app.user.username == user.username %}
                         <a type="button" class="btn btn-info" href="{{ path('user_edit',{'id': app.user.id})}}">Modifier votre profil</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
