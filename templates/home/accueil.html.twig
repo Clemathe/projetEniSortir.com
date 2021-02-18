@@ -9,14 +9,15 @@
             <div class="col-md-9 col-lg-10">
                 <div class="grid">
                     {% for sortie in sorties %}
-                        <div class="card text-light bg-dark mb-3" style="max-width: 20rem;">
-                            <div class="card-header">{{ sortie.name }} | démarre le: {{ sortie.StartedDateTime | date('d/m/y') }}</div>
+                        <div class="card text-black-50 bg-light mb-3" style="max-width: 20rem;"><a style="" href="{{ path('detailSortie_detail',{'id': sortie.id}) }}">
+                            <div class="card-header">{{ sortie.name |capitalize }} | démarre le: {{ sortie.StartedDateTime | date('d/m/y') }}</div>
                             <div class="card-body">
-                                <h4 class="card-title">nombres de places: {{ sortie.maxNbOfRegistration }}</h4>
+
+                                <h4 class="card-title">Places disponibles: {{ sortie.maxNbOfRegistration - sortie.users|length}}</h4>
                                 <p>Adresse</p>
                                 <p class="card-text">{{ sortie.lieu.ville }}</p>
                             </div>
-                        </div>
+                            </a></div>
                     {% endfor %}
                 </div>
             </div>

@@ -14,7 +14,7 @@ body {
 }
 
 .jumbotron {
-    margin-top: 10%;
+    margin-top: 5%;
 }
 .bienvenue{
 
@@ -32,4 +32,9 @@ display: block;
 }
 .container{
     margin-top: 2%;
+}
+.filter{
+    display: block;
+    position: sticky;
+    top: 20px;
 }
