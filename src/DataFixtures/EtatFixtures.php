@@ -10,6 +10,7 @@ class EtatFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+
         $etats = [
             1 => [
                 'id'=> 1,

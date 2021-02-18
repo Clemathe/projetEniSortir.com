@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker;
 use Faker\Provider\Address;
 
-class VilleFixtures extends Fixture
+class AVilleFixtures extends Fixture
 {
     public const VILLE_REFERENCE = 'ville';
 
@@ -25,8 +25,8 @@ class VilleFixtures extends Fixture
             $manager->persist($ville);
             $manager->flush();
 
-            $this->addReference(self::VILLE_REFERENCE, $ville);
-        }
+
+        } $this->addReference(self::VILLE_REFERENCE, $ville);
     }
 
 }

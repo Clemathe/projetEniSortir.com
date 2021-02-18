@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 
-class UserFixtures extends Fixture
+class MUserFixtures extends Fixture
 {
     public const USER_REFERENCE = 'user';
 
@@ -16,10 +16,10 @@ class UserFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-        /* @var $campus Campus */
-        $campus = $this->getReference(CampusFixtures::CAMPUS_REFERENCE);
+
 
         for ($i = 0; $i < 200; $i++) {
+            $campus = $this->getReference('camp_' . $faker->numberBetween($min = 1, $max = 5));
             $user = new User();
             $user->setName($faker->lastName);
             $user->setSurname($faker->firstName);

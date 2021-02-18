@@ -20,7 +20,7 @@ class LieuFixtures extends Fixture
         for ($i = 0; $i < 30; $i++) {
 
             /* @var $ville Ville */
-            $ville = $this->getReference(VilleFixtures::VILLE_REFERENCE);
+            $ville = $this->getReference(AVilleFixtures::VILLE_REFERENCE);
 
             $lieu = new Lieu();
             $lieu->setName($faker->city);
@@ -39,7 +39,7 @@ class LieuFixtures extends Fixture
     public function getDependencies(): array
     {
         return array(
-            VilleFixtures::class,
+            AVilleFixtures::class,
         );
     }
 }

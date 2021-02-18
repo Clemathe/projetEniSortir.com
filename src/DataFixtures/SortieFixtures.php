@@ -21,16 +21,16 @@ class SortieFixtures extends Fixture
         $sortie = null;
         for ($i = 0; $i < 50; $i++) {
             /* @var $user User */
-            $user = $this->getReference(UserFixtures::USER_REFERENCE);
+            $user = $this->getReference(MUserFixtures::USER_REFERENCE);
 
             /* @var $campus Campus */
-            $campus = $this->getReference(CampusFixtures::CAMPUS_REFERENCE);
+            $campus = $this->getReference('camp_' . $faker->numberBetween(1,5));
 
             /* @var $lieu Lieu */
             $lieu = $this->getReference(LieuFixtures::LIEU_REFERENCE);
 
             /* @var $etat Etat */
-            $etat = $this->getReference(EtatFixtures::ETAT_REFERENCE);
+            $etat = $this->getReference( 'cat_' . $faker->numberBetween(1, 7));
 
             $sortie = new Sortie();
             $sortie->setName($faker->word);
@@ -58,7 +58,7 @@ class SortieFixtures extends Fixture
     public function getDependencies() : array
     {
         return array(
-            VilleFixtures::class,
+            AVilleFixtures::class,
             LieuFixtures::class,
             EtatFixtures::class,
             CampusFixtures::class,

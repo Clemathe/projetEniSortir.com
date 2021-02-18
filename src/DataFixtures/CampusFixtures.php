@@ -26,6 +26,9 @@ class CampusFixtures extends Fixture
             4 => [
                 'name' => 'Quimper',
             ],
+            5 => [
+                'name' => 'Bordeaux',
+            ],
 
         ];
 
@@ -33,8 +36,9 @@ class CampusFixtures extends Fixture
             $campus = new Campus();
             $campus->setName($value['name']);
             $manager->persist($campus);
+            $this->addReference('camp_'. $key , $campus);
         }
-        $this->addReference(self::CAMPUS_REFERENCE, $campus);
+
 
         $manager->flush();
 
