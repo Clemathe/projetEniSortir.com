@@ -36,7 +36,7 @@ class SortieFixtures extends Fixture
             $sortie->setName($faker->word);
             $sortie->setDescription($faker->realText(1000));
             $sortie->setCampus($campus);
-            $sortie->setDeadline($faker->dateTimeThisMonth());
+            $sortie->setDeadline($faker->dateTimeBetween($startDate = '-1 days', $endDate = '29 days', $timezone = null));
             $sortie->setStartedDateTime($faker->dateTimeBetween($startDate = '30 days', $endDate = '90 days', $timezone = null));
             $sortie->setDuration($faker->numberBetween($min = 1, $max = 4));
             $sortie->setMaxNbOfRegistration($faker->numberBetween($min = 7, $max = 9));

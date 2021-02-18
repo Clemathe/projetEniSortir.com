@@ -93,11 +93,11 @@ class SortieController extends AbstractController
                 dump('a');
 
                 // Si le nombre maximum de participants n'est pas depassé
-                if ($sortie->getMaxNbOfRegistration() <= $sortie->getUsers()->count() ) {
+                if ($sortie->getMaxNbOfRegistration() >= $sortie->getUsers()->count() ) {
 
                     /* @var $user User */
                     $user = $this->security->getUser();
-                    
+
                     // si l'user n'est pas déjà inscrit
                     if (!$sortie->getUsers()->contains($user)){
                         dump('a');
