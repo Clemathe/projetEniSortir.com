@@ -64,11 +64,13 @@
                             <tbody>
                             {% for user in sortie.users %}
 
-                            <a href="{{ path('other_user_profil', {id: user.id}) }}"> <tr>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.name }}</td>
-                                        <td>{{ user.surname }}</td>
-                                    </tr></a>
+                                <tr>
+                                    <td><a href="{{ path('other_user_profil', {id: user.id}) }}">
+                                            {{ user.username }}</a></td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.surname }}</td>
+
+                                </tr>
                             {% endfor %}
 
                             </tbody>
@@ -84,8 +86,21 @@
                         <p class=" font-weight-bold mx-2 text-justify">{{ sortie.description }}</p>
                     </div>
 
+                    {% set i = 0 %}
+                    {% for user in sortie.users %}
+                        {% if app.user.username == user.username %}
+                            <a href="{{ path('sortie_desinscription', {id : sortie.id}) }}">
+                                <button class="btn btn-primary">Se désincrire</button>
+                            </a>
+                            {% set i = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if i == 0 %}
+                        <a href="{{ path('sortie_inscription', {id : sortie.id}) }}">
+                            <button class="btn btn-primary">S'inscrire</button>
+                        </a>
+                    {% endif %}
 
-                    <a href="{{ path('sortie_inscription', {id : sortie.id}) }}"><button class="btn btn-primary"  >S'inscrire</button></a>
 
                 </div>
             </div>

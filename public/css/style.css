@@ -24,11 +24,11 @@ body {
 }
 
 .flash-success {
-    background-color: #0c6251;
+    background-color: #159277;
 }
 
 .flash-error {
-    background-color: darkred;
+    background-color: #ec1a1a;
 }
 
 .jumbotron {

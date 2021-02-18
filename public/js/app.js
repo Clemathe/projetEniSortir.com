@@ -7,7 +7,8 @@ jQuery(document).ready(function () {
         let $form = $field.closest('form')
 
         // Les données à envoyer en Ajax
-        let data = $field.val()
+        let data = {}
+        data[$field.attr('name')] = $field.val()
 
         // On soumet les données
         let $input = $(data).find('#sortie_form_lieu')

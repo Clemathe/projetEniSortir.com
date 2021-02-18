@@ -126,12 +126,12 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/desinscription", name="sortie_desinscription")
+     * @Route("/desinscription/{id}", name="sortie_desinscription", requirements={"id" : "\d+"})
      */
-    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id)
     {
-        $idSortie = $request->request->get('idSortie');
-        $sortie = $sortieRepo->find($idSortie);
+
+        $sortie = $sortieRepo->find($id);
 
         // Si la date actuelle est plus petite que la date de la sortie
         if( new \DateTime < $sortie->getStartedDateTime())
