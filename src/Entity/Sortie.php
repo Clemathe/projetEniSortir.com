@@ -27,7 +27,7 @@ class Sortie
     /**
      * @ORM\Column(type="datetime")
      */
-    private $StartedDateTime;
+    private $startedDateTime;
 
     /**
      * @ORM\Column(type="integer")
@@ -103,12 +103,12 @@ class Sortie
 
     public function getStartedDateTime(): ?\DateTimeInterface
     {
-        return $this->StartedDateTime;
+        return $this->startedDateTime;
     }
 
-    public function setStartedDateTime(\DateTimeInterface $StartedDateTime): self
+    public function setStartedDateTime(\DateTimeInterface $startedDateTime): self
     {
-        $this->StartedDateTime = $StartedDateTime;
+        $this->startedDateTime = $startedDateTime;
 
         return $this;
     }
