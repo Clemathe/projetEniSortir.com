@@ -27,9 +27,10 @@ class SortieRepository extends ServiceEntityRepository
     {
 
         $query = $this->createQueryBuilder('s')
-        ->select('l','s','v')
+        ->select('l','s','v','u')
         ->join('s.lieu','l')
-        ->join('l.ville' ,'v');
+        ->join('l.ville' ,'v')
+        ->join('s.users','u');
 
 
 

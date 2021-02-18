@@ -43,8 +43,12 @@ class SortieFixtures extends Fixture
             $sortie->setEtat($etat);
             $sortie->setLieu($lieu);
 
-            for ($j = 0; $j < $faker->numberBetween($min = 3, $max = 7); $j++) $sortie->addUser($user);
+            for ($j = 0; $j <= $faker->numberBetween($min = 0, $max = 7);$j++){
+                /* @var $inscrit User */
+            $inscrit = $this->getReference('user_' . $faker->numberBetween(0,199));
+            $sortie->addUser($inscrit);
 
+        }
             $sortie->setOrganiser($user);
 
             $manager->persist($sortie);
