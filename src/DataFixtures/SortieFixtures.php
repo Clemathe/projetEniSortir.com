@@ -19,7 +19,7 @@ class SortieFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
         $sortie = null;
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 400; $i++) {
             /* @var $user User */
             $user = $this->getReference(MUserFixtures::USER_REFERENCE);
 

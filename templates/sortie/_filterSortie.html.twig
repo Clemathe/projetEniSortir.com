@@ -1,2 +1,13 @@
-{{ form_start(form) }}
+{{ form_start(form, {attr:{class: 'filter'}}) }}
+{{ form_row(form.q) }}
+<h4>Campus</h4>
+{{ form_row(form.Campus) }}
+<h4>Dates</h4>
+{{ form_row(form.startDate) }}
+{{ form_row(form.endDate) }}
+<h4>Filtres sorties</h4>
+{{ form_row(form.createdByMe) }}
+{{ form_row(form.outOfDate) }}
+{{ form_row(form.subscrided) }}
+<button type="button" class="btn btn-primary">rechercher</button>
 {{ form_end(form) }}

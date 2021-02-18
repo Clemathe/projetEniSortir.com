@@ -1,24 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block title %}Acceuil{% endblock %}
 {% block body %}
-<div class="grid">
-<div>
-    {% include 'sortie/_filterSortie.html.twig' with {form: form} only %}
-
-</div>
-    <div class="table-responsive pre-scrollable table-bordered table-light">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">sortie</th>
-            </tr>
-            </thead>
-            {#    {% for sortie in sorties %}#}
-{#            <tr>#}
-{#                <td>{{ sortie.name }}</td>#}
-{#            </tr>#}
-{#    {% endfor %}#}
-</div>
-
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-lg-2" >
+                {% include 'sortie/_filterSortie.html.twig' with {form: form} only %}
+            </div>
+            <div class="col-md-9 col-lg-10">
+                <div class="grid">
+                    {% for sortie in sorties %}
+                        <div class="card text-light bg-dark mb-3" style="max-width: 20rem;">
+                            <div class="card-header">{{ sortie.name }} | démarre le: {{ sortie.StartedDateTime | date('d/m/y') }}</div>
+                            <div class="card-body">
+                                <h4 class="card-title">nombres de places: {{ sortie.maxNbOfRegistration }}</h4>
+                                <p>Adresse</p>
+                                <p class="card-text">{{ sortie.lieu.ville }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

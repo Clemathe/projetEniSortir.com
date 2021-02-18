@@ -27,12 +27,14 @@ class HomeController extends AbstractController
     {
         if (is_null($this->security->getUser())){
             return $this->redirectToRoute('app_login');
+
         }
         $data = new FindSortie();
         $form =$this->createForm(FindForm::class,$data);
-        $sorties = $sortieRepo->findSearch();
+        $form->handleRequest($request);
+        $sorties = $sortieRepo->findSearch($data);
 
-        return $this->render('home/accueil.html.twig', ['sortie' => $sorties,
+        return $this->render('home/accueil.html.twig', ['sorties' => $sorties,
             'form'=> $form->createView()]);
     }
 }
