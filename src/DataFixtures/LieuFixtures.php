@@ -30,9 +30,10 @@ class LieuFixtures extends Fixture
             $lieu->setLongitude($faker->longitude);
 
             $manager->persist($lieu);
+            $this->addReference('lieu_' . $i, $lieu);
 
         }
-        $this->addReference(self::LIEU_REFERENCE, $lieu);
+
         $manager->flush();
     }
 

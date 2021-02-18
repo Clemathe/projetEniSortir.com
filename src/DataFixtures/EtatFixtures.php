@@ -8,6 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class EtatFixtures extends Fixture
 {
+    public const ETAT_REFERENCE = 'etat';
+
     public function load(ObjectManager $manager)
     {
 
@@ -47,9 +49,10 @@ class EtatFixtures extends Fixture
             $etat->setLibelle($value['libelle']);
             $etat->setId($value['id']);
             $manager->persist($etat);
+            $this->addReference('cat_' .$key, $etat);
 
-            $this->addReference('cat_'. $key, $etat);
         }
+
         $manager->flush();
 
 

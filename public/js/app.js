@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
 
         // On soumet les données
         let $input = $(data).find('#sortie_form_lieu')
-        console.log($input)
+        debugger
         $.post($form.attr('action'), data).then(function (data) {
 
             // On récupère le nouveau <select>
