@@ -21,13 +21,13 @@ class SortieFixtures extends Fixture
         $sortie = null;
         for ($i = 0; $i < 400; $i++) {
             /* @var $user User */
-            $user = $this->getReference(MUserFixtures::USER_REFERENCE);
+            $user = $this->getReference('user_' . $faker->numberBetween(0,199));
 
             /* @var $campus Campus */
             $campus = $this->getReference('camp_' . $faker->numberBetween(1,5));
 
             /* @var $lieu Lieu */
-            $lieu = $this->getReference(LieuFixtures::LIEU_REFERENCE);
+            $lieu = $this->getReference('lieu_' . $faker->numberBetween(0,29));
 
             /* @var $etat Etat */
             $etat = $this->getReference( 'cat_' . $faker->numberBetween(1, 7));
@@ -46,7 +46,6 @@ class SortieFixtures extends Fixture
             for ($j = 0; $j < $faker->numberBetween($min = 3, $max = 7); $j++) $sortie->addUser($user);
 
             $sortie->setOrganiser($user);
-
 
             $manager->persist($sortie);
 

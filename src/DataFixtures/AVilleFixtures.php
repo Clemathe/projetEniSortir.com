@@ -23,10 +23,11 @@ class AVilleFixtures extends Fixture
             $ville->setCodePostal(Address::postcode());
 
             $manager->persist($ville);
-            $manager->flush();
 
+            $this->addReference('ville_' . $i, $ville);
 
-        } $this->addReference(self::VILLE_REFERENCE, $ville);
+        }
+        $manager->flush();
     }
 
 }

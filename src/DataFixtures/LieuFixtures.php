@@ -20,7 +20,7 @@ class LieuFixtures extends Fixture
         for ($i = 0; $i < 30; $i++) {
 
             /* @var $ville Ville */
-            $ville = $this->getReference(AVilleFixtures::VILLE_REFERENCE);
+            $ville = $this->getReference('ville_' . $faker->numberBetween(0 , 9));
 
             $lieu = new Lieu();
             $lieu->setName($faker->city);
@@ -30,9 +30,10 @@ class LieuFixtures extends Fixture
             $lieu->setLongitude($faker->longitude);
 
             $manager->persist($lieu);
+            $this->addReference('lieu_' . $i, $lieu);
 
         }
-        $this->addReference(self::LIEU_REFERENCE, $lieu);
+
         $manager->flush();
     }
 

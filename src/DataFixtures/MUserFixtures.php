@@ -33,9 +33,10 @@ class MUserFixtures extends Fixture
             $user->setUrlPhoto($faker->imageUrl($width = 640, $height = 480));
 
             $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
         }
 
-        $this->addReference(self::USER_REFERENCE, $user);
+
 
         $manager->flush();
     }
