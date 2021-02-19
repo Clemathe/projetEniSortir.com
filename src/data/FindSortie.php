@@ -5,56 +5,58 @@ namespace App\data;
 
 
 use App\Entity\Campus;
+use DateTime;
+
 
 class FindSortie
 {/**
- * @var string
+ * @var string|null
  */
     public $q='';
 
     /**
      * @var string|null
      */
-    private $nomSortie;
+    public $nomSortie;
 
     /**
-     * @var Campus[]
+     * @var Campus|null
      */
-    private $Campus;
+    public $campus;
 
     /**
-     * @var Date|null
+     * @var DateTime|null
      */
-    private $startDate;
+    public $startDate;
 
 
     /**
-     * @var Date|null
+     * @var DateTime|null
      */
-    private $endDate;
-
-    /**
-     *
-     * @var boolean|null
-     */
-    private $createdByMe;
+    public $endDate;
 
     /**
      *
      * @var boolean|null
      */
-    private $subscrided;
+    public $createdByMe;
 
     /**
      *
      * @var boolean|null
      */
-    private $outOfDate;
+    public $subscrided;
+
+    /**
+     *
+     * @var boolean|null
+     */
+    public $outOfDate;
 
     /**
      * @return string
      */
-    public function getQ(): string
+    public function getQ(): ?string
     {
         return $this->q;
     }
@@ -62,32 +64,35 @@ class FindSortie
     /**
      * @param string $q
      */
-    public function setQ(string $q): void
+    public function setQ(?string $q): void
     {
         $this->q = $q;
     }
 
     /**
-     * @return Campus[]
+     * @return Campus|null
      */
-    public function getCampus(): array
+    public function getCampus(): ?Campus
     {
-        return $this->Campus;
+        return $this->campus;
     }
 
     /**
-     * @param Campus[] $Campus
+     * @param Campus|null $campus
      */
-
-    public function setCampus(array $Campus): void
+    public function setCampus(?Campus $campus): void
     {
-        $this->Campus = $Campus;
+        $this->campus = $campus;
     }
+
+
+
+
 
     /**
      * @return string
      */
-    public function getNomSortie(): string
+    public function getNomSortie(): ?string
     {
         return $this->nomSortie;
     }
@@ -103,33 +108,33 @@ class FindSortie
 
 
     /**
-     * @return Date|null
+     * @return DateTime|null
      */
-    public function getStartDate(): ?Date
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
     /**
-     * @param Date|null $startDate
+     * @param DateTime|null $startDate
      */
-    public function setStartDate(?Date $startDate): void
+    public function setStartDate(?DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
     /**
-     * @return Date|null
+     * @return DateTime|null
      */
-    public function getEndDate(): ?Date
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
 
     /**
-     * @param Date|null $endDate
+     * @param DateTime|null $endDate
      */
-    public function setEndDate(?Date $endDate): void
+    public function setEndDate(?DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
@@ -182,8 +187,8 @@ class FindSortie
         $this->outOfDate = $outOfDate;
     }
 
+    public function __toString(){
 
-
-
-
+        return $this->campus->getName();
+    }
 }

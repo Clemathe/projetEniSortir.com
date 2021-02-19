@@ -1,14 +1,11 @@
 <nav class="navbar navbar-expand-lg  sticky-top navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Sortir.com</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <a class="navbar-brand">Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
-      {% endif %}
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -41,6 +38,10 @@
                     <a class="nav-link" href="{{ path('admin')}}">Administration</a>
                 </li>
             {% endif %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <a class="navbar-brand" style="text-align: right">Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
+            {% endif %}
+
 
         </ul>
     </div>

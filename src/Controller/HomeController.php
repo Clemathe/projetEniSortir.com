@@ -32,8 +32,11 @@ class HomeController extends AbstractController
         $data = new FindSortie();
         $form =$this->createForm(FindForm::class,$data);
         $form->handleRequest($request);
-        $sorties = $sortieRepo->findSearch($data);
 
+        $sorties = $sortieRepo->findSearch($data);
+        if ($sorties == null){
+            $this->addFlash('danger', 'Auncun résultat');
+}
         return $this->render('home/accueil.html.twig', ['sorties' => $sorties,
             'form'=> $form->createView()]);
     }
