@@ -171,6 +171,13 @@ class SortieController extends AbstractController
         }
 
     }
+    /**
+     * @Route("/modification", name="sortie_modification")
+     */
+    public function modification(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    {
+        //TODO: gerer la modif si etat=1 et faire apparaitre le bouton ou non dans la vue
+    }
 
 
 }
