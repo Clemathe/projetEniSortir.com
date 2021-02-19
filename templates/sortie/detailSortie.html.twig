@@ -3,55 +3,64 @@
 {% block body %}
     <div class="container">
         <div class="jumbotron">
-            <h1 class="text-center mb-5">Détails de la sortie</h1>
-            <div class="row justify-content-center">
+            <h1 class="mb-5">{{ sortie.name | capitalize }}</h1>
+            <hr class="my-4">
+            <div class="row ">
                 <div class="col-lg-6" id="detail_detail">
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Nom de la sortie :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.name | capitalize }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Date et heure :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.startedDateTime | format_datetime('full', 'short', locale='fr') }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline ">Date limite d'inscription :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.deadline | date("d/m/Y") }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline ">Nombre de places :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.maxNbOfRegistration }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline ">Durée :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.duration }} minutes</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Campus :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.campus.name | capitalize }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Lieu :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.name | capitalize }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Rue :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue | capitalize }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Code Postal :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.rue }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Longitude :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.longitude }}</p>
-                    </div>
-                    <div class=" mb-2">
-                        <p class="d-inline  ">Latittude :</p>
-                        <p class="d-inline font-weight-bold mx-2">{{ sortie.lieu.latitude }}</p>
-                    </div>
+                    <table class="table ">
+                        <tbody>
+
+                        <tr class="table-light">
+                            <th scope="row">Date et heure :</th>
+                            <td>{{ sortie.startedDateTime | format_datetime('full', 'short', locale='fr') }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Date limite d'inscription :</th>
+                            <td>{{ sortie.deadline | format_datetime('full', 'short', locale='fr') }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Nombre de places :</th>
+                            <td>{{ sortie.users|length }} disponible sur {{ sortie.maxNbOfRegistration }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Durée :</th>
+                            <td>environ {{ sortie.duration }} heures</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Campus :</th>
+                            <td>  {{ sortie.campus.name | capitalize }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Lieu :</th>
+                            <td>{{ sortie.lieu.name | capitalize }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Rue :</th>
+                            <td>{{ sortie.lieu.rue | capitalize }}</td>
+                        </tr>
+
+                        <tr class="table-light">
+                            <th scope="row">Code Postal :</th>
+                            <td>{{ sortie.lieu.ville.codePostal }}</td>
+                        </tr>
+
+                        <tr class="table-light">
+                            <th scope="row">Longitude :</th>
+                            <td>{{ sortie.lieu.longitude }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Lattitude :</th>
+                            <td>{{ sortie.lieu.longitude }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Participants :</th>
+                            <td></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
                     <div>
-                        <p>Particpants :</p>
                         <table class=" pre-scrollable table-bordered table table-hover">
                             <thead>
                             <tr>
@@ -82,8 +91,8 @@
 
                 <div class="col-lg-6">
                     <div class=" mb-2">
-                        <p class="d-block mb-2 ">Description :</p>
-                        <p class=" font-weight-bold mx-2 text-justify">{{ sortie.description }}</p>
+                        <p class="d-block mb-2 font-weight-bold ">Description :</p>
+                        <p class=" mx-2 text-justify">{{ sortie.description }}</p>
                     </div>
 
                     {% set i = 0 %}

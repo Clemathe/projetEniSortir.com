@@ -33,7 +33,7 @@ class SortieFixtures extends Fixture
             $etat = $this->getReference( 'cat_' . $faker->numberBetween(1, 7));
 
             $sortie = new Sortie();
-            $sortie->setName($faker->word);
+            $sortie->setName($faker->realText(15));
             $sortie->setDescription($faker->realText(1000));
             $sortie->setCampus($campus);
             $sortie->setDeadline($faker->dateTimeBetween($startDate = '-1 days', $endDate = '29 days', $timezone = null));
