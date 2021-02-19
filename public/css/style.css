@@ -1,8 +1,9 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-body {
-    /*background-color: #3be6c4;*/
-    /*font-family: 'Roboto Mono', monospace;*/
+body{
+    color:black;
+    background-image: url("/public/img/Kpy2XW.jpg");
+    margin:0;
 }
 
 /* css navbar */

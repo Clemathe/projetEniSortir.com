@@ -32,6 +32,7 @@ class SortieFormType extends AbstractType
                 'label' => 'Nom de la sortie'])
             ->add('StartedDateTime', DateTimeType::class, [
                 'label' => 'Date et heure de la sortie',
+                'widget' => 'single_text',
                 "minutes" => [
                     '00','05','10',
                     '15','20','25',
@@ -41,7 +42,9 @@ class SortieFormType extends AbstractType
             ->add('duration',IntegerType::class, [
                 'label' => 'Durée'] )
             ->add('deadline',DateType::class, [
-                'label' => 'Date limite d\'inscription'])
+                'label' => 'Date limite d\'inscription',
+                'widget' => 'single_text',
+                ])
             ->add('maxNbOfRegistration', IntegerType::class, [
                 'label' => 'Nombre de particpant maximum'])
 
