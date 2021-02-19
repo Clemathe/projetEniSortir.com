@@ -39,7 +39,9 @@
                 </li>
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <a class="navbar-brand" style="text-align: right">Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
+                <li></li>
+                <a class="navbar-brand" s>Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
+                </li>
             {% endif %}
 
 

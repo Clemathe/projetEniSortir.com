@@ -11,22 +11,28 @@
             <div class="grid">
                 {% for sortie in sorties %}
                     <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+
                         <div class="mainflip">
                             <div class="frontside">
+
                                 <div class="card">
+                                    <a  href="{{ path('detailSortie_detail',{id: sortie.id})}}" class="btn btn-light stretched-link"></a>
                                     <div class="card-body text-center">
                                         <h4 class="card-title">{{ sortie.name |capitalize }} </h4>
                                         <p class="card-text">démarre
                                             le: {{ sortie.StartedDateTime | date('d/m/y') }}</p>
                                         <p class="card-text">Places
                                             disponibles: {{ sortie.maxNbOfRegistration - sortie.users|length }}</p>
-                                        <h4 class="card-title">Adresse</h4>
+                                        <h4 class="card-title">Ville</h4>
                                         <p class="card-text">{{ sortie.lieu.ville }}</p>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="backside">
+
                                 <div class="card">
+                                    <a href="{{ path('detailSortie_detail',{id: sortie.id})}}" class="btn btn-light stretched-link"></a>
                                     <div class="card-body text-center mt-4">
                                         <h4 class="card-title">Description</h4>
                                         <p class="card-text">{{ sortie.description | u.truncate(250) }}...</p>
