@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieFormType;
@@ -93,13 +94,13 @@ class SortieController extends AbstractController
                 dump('a');
 
                 // Si le nombre maximum de participants n'est pas depassé
-                if ($sortie->getMaxNbOfRegistration() >= $sortie->getUsers()->count() ) {
+                if ($sortie->getMaxNbOfRegistration() >= $sortie->getUsers()->count()) {
 
                     /* @var $user User */
                     $user = $this->security->getUser();
 
                     // si l'user n'est pas déjà inscrit
-                    if (!$sortie->getUsers()->contains($user)){
+                    if (!$sortie->getUsers()->contains($user)) {
                         dump('a');
                         $user->addSortie($sortie);
                         $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
@@ -108,17 +109,16 @@ class SortieController extends AbstractController
                         $em->flush();
 
                         $this->addFlash('success', 'Vous êtes inscrits');
-                    }
-                    else{
+                    } else {
                         $this->addFlash('error', 'Vous êtes déjà inscrit');
                     }
-                }else{
+                } else {
                     $this->addFlash('error', 'Le nombre maximun de participant est déjà atteint');
                 }
             } else {
                 $this->addFlash('error', 'La date d\'inscription est dépassée');
             }
-        }else{
+        } else {
             $this->addFlash('error', 'Les inscriptions ne sont pas ouvertes');
         }
 
@@ -134,8 +134,7 @@ class SortieController extends AbstractController
         $sortie = $sortieRepo->find($id);
 
         // Si la date actuelle est plus petite que la date de la sortie
-        if( new \DateTime < $sortie->getStartedDateTime())
-        {
+        if (new \DateTime < $sortie->getStartedDateTime()) {
             /* @var $user User */
             $user = $this->security->getUser();
 
@@ -146,8 +145,8 @@ class SortieController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Vous êtes desinscrits de la sortie');
-        }else{
-            $this->addFlash('error', 'La sortie a déjà commencée, impossible de se désinscrire');
+        } else {
+            $this->addFlash('error', 'La sortie est commencée ou a déjà eu lieu, impossible de se désinscrire');
         }
 
         return $this->redirectToRoute('home');
@@ -161,21 +160,80 @@ class SortieController extends AbstractController
         /* @var $user User */
         $user = $this->security->getUser();
 
+        $etat = new Etat();
+
+
         $idSortie = $request->request->get('idSortie');
         $sortie = $sortieRepo->find($idSortie);
 
         // Si l'id utilisateur est égal à l'id organisateur
-        if($user->getId() == $sortie->getOrganiser()->getId())
-        {
-            $particpants = $sortie->getUsers();
+
+        if ($user->getId() == $sortie->getOrganiser()->getId()) {
+
+
+            //Si la date de la sortie est déjà dépassé
+            if (new \DateTime < $sortie->getStartedDateTime()) {
+                $participants = $sortie->getUsers();
+                // Supprime la sortie dans la liste des sorties des users
+                foreach ($participants as $participant) {
+                    $participant->removeSortie(); // TODO Plutot que de supprmer les particpants, gerer l'affichage des sorties dans une categorie de sortie annulée
+                }
+                //Supprime la sortie de la liste des sorties crées de l'utilisateur
+                // $user->removeEventCreated($sortie);
+                $etat->setId(6);
+                $sortie->setEtat($etat);
+                $em->persist($user);
+                $em->flush();
+
+            } else {
+                $this->addFlash('error', 'La sortie est terminée, impossible de l\'annuler');
+            }
+        } else {
+            $this->addFlash('error', 'Vous n\'êtes pas l\'organisateur, impossible de supprimer la sortie');
         }
 
+
     }
+
     /**
      * @Route("/modification", name="sortie_modification")
      */
-    public function modification(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    public function modification(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request, Sortie $sortie)
     {
+        $sortieForm = $this->createForm(SortieFormType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+//        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+//
+//            //recuperer l'user en session et instancie un organisteur
+//
+//            $id = $this->security->getUser()->getId();
+//            $organiser = $userRepo->find($id);
+//
+//            $organiser->addEventCreated($sortie);
+//            $sortie->setOrganiser($organiser);
+//
+//            // instancie Etat et récupère l'état via les boutons publier ou enregistrer
+//
+//            $id = $request->request->get('etat');
+//            $etat = $etatRepo->find($id);
+//            $sortie->setEtat($etat);
+////            dd($etat);
+//
+////            $em->persist($sortie);
+////            $em->flush();
+
+//            //Gestion de l'affichage d'un message de succès ou d'echec
+//            if ($etat->getId() == 2){
+//                $this->addFlash('success', 'La sortie a été publiée');
+//            }else if ($etat->getId() == 1) {
+//                $this->addFlash('success', 'La sortie a été sauvegardée');
+//            }else{
+//                $this->addFlash('error', 'Un problème est survenu');
+//            }
+//            return $this->redirectToRoute('home', []);
+
+//        }
         //TODO: gerer la modif si etat=1 et faire apparaitre le bouton ou non dans la vue
     }
 
