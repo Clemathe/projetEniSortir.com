@@ -20,7 +20,7 @@
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Nombre de places :</th>
-                            <td>{{ sortie.users|length }} disponible sur {{ sortie.maxNbOfRegistration }}</td>
+                            <td>{{ (sortie.maxNbOfRegistration - sortie.users|length) }} disponible sur {{ sortie.maxNbOfRegistration }}</td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Durée :</th>
@@ -53,6 +53,10 @@
                             <td>{{ sortie.lieu.longitude }}</td>
                         </tr>
                         <tr class="table-light">
+                            <th scope="row">Organisateur :</th>
+                            <td>{{ sortie.organiser.surname | capitalize }} {{ sortie.organiser.name | capitalize }}</td>
+                        </tr>
+                        <tr class="table-light">
                             <th scope="row">Participants :</th>
                             <td></td>
                         </tr>
@@ -75,9 +79,9 @@
 
                                 <tr>
                                     <td><a href="{{ path('other_user_profil', {id: user.id}) }}">
-                                            {{ user.username }}</a></td>
-                                    <td>{{ user.name }}</td>
-                                    <td>{{ user.surname }}</td>
+                                            {{ user.username   }}</a></td>
+                                    <td>{{ user.name | capitalize  }}</td>
+                                    <td>{{ user.surname | capitalize  }}</td>
 
                                 </tr>
                             {% endfor %}
@@ -97,19 +101,33 @@
 
                     {% set i = 0 %}
                     {% for user in sortie.users %}
-                        {% if app.user.username == user.username %}
+
+                        {# Si le user en session n'est pas l'organisteur et est inscrit à la sortie -> bouton se désincrire  #}
+
+                        {% if app.user.username == user.username and app.user.id != sortie.organiser.id  %}
                             <a href="{{ path('sortie_desinscription', {id : sortie.id}) }}">
                                 <button class="btn btn-primary">Se désincrire</button>
                             </a>
+
                             {% set i = 1 %}
                         {% endif %}
                     {% endfor %}
-                    {% if i == 0 %}
+
+                    {# Si le user en session n'est pas l'organisteur  et n'est pas inscrit-> bouton s'inscrire  #}
+
+                    {% if i == 0 and app.user.id != sortie.organiser.id   %}
                         <a href="{{ path('sortie_inscription', {id : sortie.id}) }}">
                             <button class="btn btn-primary">S'inscrire</button>
                         </a>
                     {% endif %}
 
+                    {# Si le user en session est l'oragnisateur -> bouton modifier la sortie #}
+
+                    {% if app.user.id == sortie.organiser.id %}
+                        <a href="{{ path('sortie_modification', {id : sortie.id}) }}">
+                            <button class="btn btn-primary">Modifier</button>
+                        </a>
+                    {% endif %}
 
                 </div>
             </div>

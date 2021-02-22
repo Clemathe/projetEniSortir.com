@@ -34,77 +34,103 @@ class SortieFormType extends AbstractType
                 'label' => 'Date et heure de la sortie',
                 'widget' => 'single_text',
                 "minutes" => [
-                    '00','05','10',
-                    '15','20','25',
-                    '30','35','40',
-                    '45','50','55']
-               ])
-            ->add('duration',IntegerType::class, [
-                'label' => 'Durée'] )
-            ->add('deadline',DateType::class, [
+                    '00', '05', '10',
+                    '15', '20', '25',
+                    '30', '35', '40',
+                    '45', '50', '55']
+            ])
+            ->add('duration', IntegerType::class, [
+                'label' => 'Durée'])
+            ->add('deadline', DateType::class, [
                 'label' => 'Date limite d\'inscription',
                 'widget' => 'single_text',
-                ])
+            ])
             ->add('maxNbOfRegistration', IntegerType::class, [
                 'label' => 'Nombre de particpant maximum'])
-
             ->add('description', TextareaType::class, [
                 'label' => 'Description'])
-
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => function ($campus ) {
-                    return $campus->getName();}])
-
+                'choice_label' => function ($campus) {
+                    return $campus->getName();
+                }])
             ->add('ville', EntityType::class, [
                 'class' => Ville::class,
-                'mapped'=>false,
+                'mapped' => false,
                 'required' => false,
             ]);
 
+//        $formModifier = function (FormInterface $form, Ville $ville = null) {
+//            $lieux = null === $ville ? [] : $ville->getLieux();
+//
+//            $form->add('lieu', EntityType::class, [
+//                'class' => Lieu::class,
+//                'placeholder' => 'Veuillez choisir une ville',
+//                'choices' => $lieux
+//            ]);
+//        };
+//        $builder->addEventListener(
+//            FormEvents::PRE_SET_DATA,
+//            function (FormEvent $event) use ($formModifier) {
+//            $data = $event->getData();
+//            $formModifier($event->getForm(), $data->getLieu());
+//}
+//        );
+//
+//        $builder->get('ville')->addEventListener(
+//            FormEvents::POST_SUBMIT,
+//            function(FormEvent $event) use ($formModifier){
+//            $ville = $event->getForm()->getData();
+//                dd($ville);
+//            $formModifier($event->getForm()->getParent(), $ville);
+//            }
+//        );
+//}
 
-        $builder->get('ville')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event){
-                $form = $event->getForm();
-                $form->getParent()->add('lieu', EntityType::class, [
-                    'class' => Lieu::class,
-                    'placeholder' => 'Sélectionnez un lieu',
-                    'choices' => $form->getData()->getLieux(),
-                    ]);
-            }
-        );
+
+
 //        $builder->get('ville')->addEventListener(
 //            FormEvents::POST_SUBMIT,
 //            function (FormEvent $event){
 //                $form = $event->getForm();
-//;                $this->addLieuField($form->getParent(), $form->getData());
+//                $form->getParent()->add('lieu', EntityType::class, [
+//                    'class' => Lieu::class,
+//                    'placeholder' => 'Sélectionnez un lieu',
+//                    'choices' => $form->getData()->getLieux(),
+//                    ]);
 //            }
 //        );
-//        $builder->addEventListener(
-//            FormEvents::POST_SET_DATA,
-//            function (FormEvent $event){
-//                $data = $event->getData();
-//
-//                $lieux = $data->getLieu();
-//                $form = $event->getForm();
-//                if($lieux){
-//                    $ville = $lieux->getVille();
-//                    $this->addLieuField($form, $ville);
-//                    $form->get('lieu')->setData($lieux);
-//                }else{
-//                    $this->addLieuField($form, null);
-//                }
-//            }
-//        );
-//    }
-//
-//        private function addLieuField(FormInterface $form, ?Ville $ville){
-//        $form->add('lieu', EntityType::class, [
-//            'class' => Lieu::class,
-//            'placeholder' => 'Sélectionnez un lieu',
-//            'choices' => $ville ? $ville->getLieux() : [],
-//            ]);
+        $builder->get('ville')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event){
+                $form = $event->getForm();
+;                $this->addLieuField($form->getParent(), $form->getData());
+            }
+        );
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event){
+                $data = $event->getData();
+
+                $lieux = $data->getLieu();
+                $form = $event->getForm();
+                if($lieux){
+                    $ville = $lieux->getVille();
+                    $this->addLieuField($form, $ville);
+                    $form->get('lieu')->setData($lieux);
+                }else{
+                    $this->addLieuField($form, null);
+                }
+            }
+        );
+    }
+
+        private function addLieuField(FormInterface $form, ?Ville $ville){
+        $form->add('lieu', EntityType::class, [
+            'class' => Lieu::class,
+            'placeholder' => 'Sélectionnez un lieu',
+            'choices' => $ville ? $ville->getLieux() : [],
+            ]);
     }
 
 
@@ -116,4 +142,4 @@ class SortieFormType extends AbstractType
             'data_class' => Sortie::class,
         ]);
     }
-}
+    }

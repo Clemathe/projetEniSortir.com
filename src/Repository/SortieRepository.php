@@ -38,10 +38,11 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.lieu', 'l')
             ->join('l.ville', 'v')
             ->join('s.users', 'u');
+
         // filtre par etat archive et non publié
         $query->andWhere('s.etat NOT IN (1,6,7)');
-        //ajout de la zone de recherche dans la requete
 
+        //ajout de la zone de recherche dans la requete
         if ($search->getQ() != null || $search->getQ() != '') {
             $query->andWhere('s.name LIKE :nom')
                 ->setParameter('nom', '%' . $search->getQ() . '%');
@@ -80,6 +81,15 @@ class SortieRepository extends ServiceEntityRepository
             /* @var $user User */
             $user = $this->security->getUser();
             $query->andWhere('u.id = :userId')
+                ->setParameter('userId', $user->getId());
+
+        }
+
+        if ($search->unSubscrided== true){
+            //u.id == moi
+            /* @var $user User */
+            $user = $this->security->getUser();
+            $query->andWhere('u.id != :userId')
                 ->setParameter('userId', $user->getId());
 
         }

@@ -196,45 +196,16 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/modification", name="sortie_modification")
+     * @Route("/modification/{id}", name="sortie_modification", requirements={"id" : "\d+"})
      */
     public function modification(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request, Sortie $sortie)
     {
         $sortieForm = $this->createForm(SortieFormType::class, $sortie);
         $sortieForm->handleRequest($request);
-        dd($sortie);
 
-//        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
-//
-//            //recuperer l'user en session et instancie un organisteur
-//
-//            $id = $this->security->getUser()->getId();
-//            $organiser = $userRepo->find($id);
-//
-//            $organiser->addEventCreated($sortie);
-//            $sortie->setOrganiser($organiser);
-//
-//            // instancie Etat et récupère l'état via les boutons publier ou enregistrer
-//
-//            $id = $request->request->get('etat');
-//            $etat = $etatRepo->find($id);
-//            $sortie->setEtat($etat);
-////            dd($etat);
-//
-////            $em->persist($sortie);
-////            $em->flush();
 
-//            //Gestion de l'affichage d'un message de succès ou d'echec
-//            if ($etat->getId() == 2){
-//                $this->addFlash('success', 'La sortie a été publiée');
-//            }else if ($etat->getId() == 1) {
-//                $this->addFlash('success', 'La sortie a été sauvegardée');
-//            }else{
-//                $this->addFlash('error', 'Un problème est survenu');
-//            }
-//            return $this->redirectToRoute('home', []);
+        return $this->render('sortie/nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'sortie' => $sortie ]);
 
-//        }
         //TODO: gerer la modif si etat=1 et faire apparaitre le bouton ou non dans la vue
     }
 

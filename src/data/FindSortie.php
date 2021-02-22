@@ -51,7 +51,14 @@ class FindSortie
      *
      * @var boolean|null
      */
+    public $unSubscrided;
+
+    /**
+     *
+     * @var boolean|null
+     */
     public $outOfDate;
+
 
     /**
      * @return string

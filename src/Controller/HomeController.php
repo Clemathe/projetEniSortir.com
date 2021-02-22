@@ -36,7 +36,7 @@ class HomeController extends AbstractController
 
         // Execution de la procedure stockée de mise à jour des états
         $stmt = $em->getConnection()->prepare("CALL miseAJourEtat()");
-        $stmt->fetchAll();
+        $stmt->execute();
 
 
 

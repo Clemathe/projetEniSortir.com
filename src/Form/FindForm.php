@@ -55,6 +55,10 @@ class FindForm extends AbstractType
                 'label' => 'mes inscritpions',
                 'required' => false
             ])
+            ->add('unSubscrided', CheckboxType::class, [
+                'label' => 'Pas encore inscrit',
+                'required' => false
+            ])
         ;
     }
 
