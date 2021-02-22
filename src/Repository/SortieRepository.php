@@ -91,10 +91,10 @@ class SortieRepository extends ServiceEntityRepository
         }
 
         if ($search->unSubscrided== true){
-            //u.id == moi
+
             /* @var $user User */
             $user = $this->security->getUser();
-            $query->andWhere('u.id != :userId')
+            $query->andWhere($query->expr()->notIn('u.id', ':userId'))
                 ->setParameter('userId', $user->getId());
 
         }
@@ -104,4 +104,25 @@ class SortieRepository extends ServiceEntityRepository
 
 //            return $query->getQuery()->getResult();
     }
+    public function getSortiesUser($id = null){
+      $query= $this->createQueryBuilder('s')
+          ->select('l', 's', 'v', 'u')
+          ->join('s.lieu', 'l')
+          ->join('l.ville', 'v')
+          ->join('s.users', 'u');
+
+        if (isset($id)){
+
+            $query->andWhere('u.id = :Id')
+                ->setParameter('Id', $id);
+        }else{
+            /* @var $user User */
+            $user = $this->security->getUser();
+            $query->andWhere('u.id = :userId')
+                ->setParameter('userId', $user->getId());
+        }
+            return $query->getQuery()->getResult();
+
+    }
+
 }

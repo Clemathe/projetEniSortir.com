@@ -37,9 +37,44 @@
                             <th scope="row">campus: </th>
                             <td>{{ user.campus.name }}</td>
                         </tr>
+                        <tr class="table-light">
+                            <th scope="row">Sorties : </th>
+
+                        </tr>
 
                         </tbody>
                     </table>
+                    <div>
+
+                        <table class=" pre-scrollable table-bordered table table-hover">
+                            <thead>
+                            <tr>
+
+                                <th scope="col">Sortie</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Ville</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <label
+                            {% for sortie in sorties %}
+
+                                <tr>
+                                    <td><a href="{{ path('detailSortie_detail', {id: sortie.id}) }}">{{ sortie.name   }}</a></td>
+                                    <td>{{ sortie.startedDateTime | format_datetime('full', 'short', locale='fr') }}</td>
+                                    <td>{{ sortie.lieu.ville | capitalize  }}</td>
+
+                                    {% if app.user.username == user.username %}
+                                    <td> <a href="{{ path('sortie_desinscription_profil', {id : sortie.id, profil: 1 }) }}">
+                                            <button class="btn btn-primary" >Se désincrire</button>
+                                        </a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
                     <hr class="my-4">
                     {% if app.user.username == user.username %}
                         <a type="button" class="btn btn-info" href="{{ path('user_edit',{'id': app.user.id})}}">Modifier mon profil</a>

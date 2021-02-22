@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,16 +52,20 @@ class UserController extends AbstractController
      * @Route("/user/profil", name="user_profil")
      * @Route("/user/profil/{id}", name="other_user_profil", requirements={"id" : "\d+"})
      */
-    public function profilView(UserRepository $userRepo, $id = null, Security $security){
+    public function profilView(UserRepository $userRepo, $id = null, Security $security, SortieRepository $sortieRepo){
 
         if(isset($id)){
             $user = $userRepo->find($id);
+            $sorties = $sortieRepo->getSortiesUser($id);
         }else{
             $user = $security->getUser();
+            $sorties = $sortieRepo->getSortiesUser();
         }
 
+
+//    dd($sorties);
         return $this->render('user/profil.html.twig',[
-            'user' => $user]);
+            'user' => $user, 'sorties'=> $sorties]);
     }
 //    /**
 //     * @Route("/user/profil/{id}", name="user_profil", requirements={"id" : "\d+"})

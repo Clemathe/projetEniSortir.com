@@ -127,8 +127,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/desinscription/{id}", name="sortie_desinscription", requirements={"id" : "\d+"})
+     * @Route("/desinscription/{id}/{profil}", name="sortie_desinscription_profil")
      */
-    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id)
+    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id, $profil = null)
     {
 
         $sortie = $sortieRepo->find($id);
@@ -145,6 +146,9 @@ class SortieController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Vous êtes desinscrits de la sortie');
+
+            if ( $profil)
+                return $this->redirectToRoute('user_profil');
         } else {
             $this->addFlash('error', 'La sortie est commencée ou a déjà eu lieu, impossible de se désinscrire');
         }
