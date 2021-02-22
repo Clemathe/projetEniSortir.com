@@ -50,19 +50,11 @@ class FindForm extends AbstractType
                 'label' => 'mes sorties crée',
                 'required' => false
             ])
-            ->add('outOfDate', CheckboxType::class, [
-                'label' => '...finies',
+
+            ->add('subscrided', CheckboxType::class, [
+                'label' => 'mes inscritpions',
                 'required' => false
             ])
-//            ->add('subscrided', ChoiceType::class, [
-//                'choices' => [
-//                    'Toutes les sorties' => null,
-//                    'je suis inscrit' => true,
-//                    'je ne suis pas inscrit' => false,
-//                ],
-//                'expanded' => false,
-//                'label' => false,
-//            ])
         ;
     }
 

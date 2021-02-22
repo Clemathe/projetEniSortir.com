@@ -110,16 +110,16 @@ class SortieController extends AbstractController
 
                         $this->addFlash('success', 'Vous êtes inscrits');
                     } else {
-                        $this->addFlash('error', 'Vous êtes déjà inscrit');
+                        $this->addFlash('danger', 'Vous êtes déjà inscrit');
                     }
                 } else {
-                    $this->addFlash('error', 'Le nombre maximun de participant est déjà atteint');
+                    $this->addFlash('danger', 'Le nombre maximun de participant est déjà atteint');
                 }
             } else {
-                $this->addFlash('error', 'La date d\'inscription est dépassée');
+                $this->addFlash('danger', 'La date d\'inscription est dépassée');
             }
         } else {
-            $this->addFlash('error', 'Les inscriptions ne sont pas ouvertes');
+            $this->addFlash('danger', 'Les inscriptions ne sont pas ouvertes');
         }
 
         return $this->redirectToRoute('home');

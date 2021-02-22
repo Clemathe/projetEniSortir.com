@@ -36,6 +36,8 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.lieu', 'l')
             ->join('l.ville', 'v')
             ->join('s.users', 'u');
+        // filtre par etat archive et non publié
+        $query->andWhere('s.etat NOT IN (1,6,7)');
         //ajout de la zone de recherche dans la requete
 
         if ($search->getQ() != null || $search->getQ() != '') {
@@ -60,23 +62,22 @@ class SortieRepository extends ServiceEntityRepository
             $query->andWhere('s.deadline < :dateFin')
                 ->setParameter('dateFin', $search->getEndDate());
         }
-        //Sortie terminée
-        if ($search->getOutOfDate()== true){
-            $query->andWhere('s.deadline > :dateFin')
-                ->setParameter('dateFin',$search->getEndDate());
 
-        }
-        // celle que j'organise
         if ($search->createdByMe==true){
             //recherche id User
             /* @var $user User */
             $user = $this->security->getUser();
-
-            //recherche pa id des sorties
+            //recherche par id des sorties
             $query->andWhere('s.organiser = :userId')
                 ->setParameter('userId', $user->getId());
         }
 
+//        if ($search->getSubscrided()==true){
+//            $query->select('s')
+//                ->from('user','u')
+//                ->where('u.sortie = s.id');
+//
+//        }
 
         if ($query)
             return $query->getQuery()->getResult();

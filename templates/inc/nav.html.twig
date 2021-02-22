@@ -5,7 +5,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor01">
+    <div class="collapse navbar-collapse order-1" id="navbarColor01">
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -35,13 +35,18 @@
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin')}}">Administration</a>
+                    <a class="nav-link" href="{{ path('admin') }}">Administration</a>
                 </li>
             {% endif %}
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <li></li>
-                <a class="navbar-brand" s>Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
-                </li>
+
+                <div class="navbar-collapse collapse order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="navbar-brand">Bienvenue {{ app.user.username }}, {{ ("now" | date("d/m/y")) }}</a>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
 
 

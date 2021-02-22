@@ -14,25 +14,55 @@ body{
     position: sticky;
     top: 20px;
 }
-
-
-.flash {
-    display: block;
-    color: #FFF;
-    margin-top: 5px;
-    padding: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
+.btn btn-primary {
+    border-top: 1px solid #f0f0f0;
+    background: #65a9d7;
+    background: -webkit-gradient(linear, left top, left bottom, from(#2d6c96), to(#65a9d7));
+    background: -webkit-linear-gradient(top, #2d6c96, #65a9d7);
+    background: -moz-linear-gradient(top, #2d6c96, #65a9d7);
+    background: -ms-linear-gradient(top, #2d6c96, #65a9d7);
+    background: -o-linear-gradient(top, #2d6c96, #65a9d7);
+    padding: 12.5px 25px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: white;
+    font-size: 20px;
+    font-family: Georgia, serif;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.button:hover {
+    border-top-color: #28597a;
+    background: #28597a;
+    color: #f7c545;
+}
+.button:active {
+    border-top-color: #1b7dbf;
+    background: #1b7dbf;
 }
 
-.flash-success {
-    background-color: #159277;
-}
+/*.flash {*/
+/*    display: block;*/
+/*    color: #FFF;*/
+/*    margin-top: 5px;*/
+/*    padding: 20px;*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*    text-align: center;*/
+/*}*/
 
-.flash-error {
-    background-color: #ec1a1a;
-}
+/*.flash-success {*/
+/*    background-color: #159277;*/
+/*}*/
+
+/*.flash-error {*/
+/*    background-color: #ec1a1a;*/
+/*}*/
 
 .jumbotron {
     margin-top: 5%;
