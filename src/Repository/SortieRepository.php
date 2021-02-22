@@ -99,7 +99,7 @@ class SortieRepository extends ServiceEntityRepository
 
         }
             $query =$query->getQuery();
-        return $this->paginator->paginate($query,$search->page,9);
+        return $this->paginator->paginate($query,$search->page,12);
 
 
 //            return $query->getQuery()->getResult();

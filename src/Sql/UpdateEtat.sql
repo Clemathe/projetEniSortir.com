@@ -47,14 +47,14 @@ ELSEIF NOW() > ADDDATE(var_started_date_time, INTERVAL var_duration HOUR) AND va
 UPDATE sortie SET etat_id = 5 WHERE id = var_id;
 
 -- etat / 2
--- (LIEE AU FIXTURE ALEATOIRE, A SUPPRIMER EN PROD)
+-- (TODO LIEE AU FIXTURE ALEATOIRE, A SUPPRIMER EN PROD)
 -- Si aucun des cas precedents correspond, la sortie doit etre ouverte
 ELSE
 UPDATE sortie SET etat_id = 2 WHERE id = var_id AND etat_id in ( 3,4,5,7);
 
 END IF;
 
--- etat 7 / Archivée
+-- etat 7 / Archivée TODO A remettre dans la boucle if en prod
 -- Si la date de début de la sortie est dépassée depuis plus de 31 jours ( meme pour les sorties non publiées )
 IF ADDDATE(var_started_date_time, INTERVAL 1 MONTH) < NOW() AND var_etat_id not in (6) THEN
 UPDATE sortie SET etat_id = 7 WHERE id = var_id;
