@@ -104,17 +104,20 @@ class SortieRepository extends ServiceEntityRepository
 
 //            return $query->getQuery()->getResult();
     }
+    // Afin d'afficher les sorties des user dans leur profil
     public function getSortiesUser($id = null){
       $query= $this->createQueryBuilder('s')
           ->select('l', 's', 'v', 'u')
           ->join('s.lieu', 'l')
           ->join('l.ville', 'v')
           ->join('s.users', 'u');
-
+        //Si la fonction contient un id en parametre ( pour les autres utilisateurs en bdd)
         if (isset($id)){
 
             $query->andWhere('u.id = :Id')
                 ->setParameter('Id', $id);
+
+        // Pour l'utilisateur connecté en session
         }else{
             /* @var $user User */
             $user = $this->security->getUser();

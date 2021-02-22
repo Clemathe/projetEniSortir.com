@@ -54,30 +54,20 @@ class UserController extends AbstractController
      */
     public function profilView(UserRepository $userRepo, $id = null, Security $security, SortieRepository $sortieRepo){
 
+        // Pour les profils utilisateurs en bdd sauf celui en session
         if(isset($id)){
             $user = $userRepo->find($id);
             $sorties = $sortieRepo->getSortiesUser($id);
+
+        //Pour l'utilisateur en session
         }else{
             $user = $security->getUser();
             $sorties = $sortieRepo->getSortiesUser();
         }
 
-
-//    dd($sorties);
         return $this->render('user/profil.html.twig',[
             'user' => $user, 'sorties'=> $sorties]);
     }
-//    /**
-//     * @Route("/user/profil/{id}", name="user_profil", requirements={"id" : "\d+"})
-//     */
-//    public function otherProfilView(UserRepository $userRepo, $id){
-//
-//        $user = $userRepo->find($id);
-//
-//        return $this->render('user/profil.html.twig',[
-//        'user' => $user]);
-//    }
-
 
     /**
      * @Route ("/{id}/edit", name="user_edit", methods={"GET","POST"})
