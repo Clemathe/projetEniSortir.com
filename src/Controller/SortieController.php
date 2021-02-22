@@ -202,6 +202,7 @@ class SortieController extends AbstractController
     {
         $sortieForm = $this->createForm(SortieFormType::class, $sortie);
         $sortieForm->handleRequest($request);
+        dd($sortie);
 
 //        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
 //
