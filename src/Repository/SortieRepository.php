@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -19,10 +20,11 @@ class SortieRepository extends ServiceEntityRepository
 {
     private $security;
 
-    public function __construct(ManagerRegistry $registry,Security $security)
+    public function __construct(ManagerRegistry $registry,Security $security,PaginatorInterface $paginator)
     {
         parent::__construct($registry, Sortie::class);
         $this->security = $security;
+        $this->paginator=$paginator;
     }
 
     /**
@@ -72,14 +74,18 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $user->getId());
         }
 
-//        if ($search->getSubscrided()==true){
-//            $query->select('s')
-//                ->from('user','u')
-//                ->where('u.sortie = s.id');
-//
-//        }
 
-        if ($query)
+        if ($search->subscrided== true){
+            //u.id == moi
+            /* @var $user User */
+            $user = $this->security->getUser();
+            $query->andWhere('u.id = :userId')
+                ->setParameter('userId', $user->getId());
+
+        }
+
+
+
             return $query->getQuery()->getResult();
     }
 }

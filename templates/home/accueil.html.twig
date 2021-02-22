@@ -2,7 +2,7 @@
 {% block title %}Acceuil{% endblock %}
 {% block body %}
 
-
+..
     <div class="row">
         <div class="col-md-3 col-lg-2">
             {% include 'sortie/_filterSortie.html.twig' with {form: form} only %}
@@ -22,7 +22,7 @@
                                         <p class="card-text">démarre
                                             le: {{ sortie.StartedDateTime | date('d/m/y') }}</p>
                                         <p class="card-text">Places
-                                            disponibles: {{ sortie.maxNbOfRegistration - sortie.users|length }}</p>
+                                            disponibles: {{ sortie.maxNbOfRegistration }}</p>
                                         <h4 class="card-title">Ville</h4>
                                         <p class="card-text">{{ sortie.lieu.ville }}</p>
 
