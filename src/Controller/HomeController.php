@@ -41,6 +41,7 @@ class HomeController extends AbstractController
 
 
         $data = new FindSortie();
+        $data->page=$request->get('page',1);
         $form =$this->createForm(FindForm::class,$data);
         $form->handleRequest($request);
         $inscrit= $this->getUser()->getSorties();

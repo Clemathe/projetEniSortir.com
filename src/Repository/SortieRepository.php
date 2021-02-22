@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -19,6 +20,10 @@ use Symfony\Component\Security\Core\Security;
 class SortieRepository extends ServiceEntityRepository
 {
     private $security;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     public function __construct(ManagerRegistry $registry,Security $security,PaginatorInterface $paginator)
     {
@@ -28,9 +33,9 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Sortie[]
+     * @return PaginationInterface
      */
-    public function findSearch(FindSortie $search): array
+    public function findSearch(FindSortie $search ): PaginationInterface
     {
 
         $query = $this->createQueryBuilder('s')
@@ -93,9 +98,10 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $user->getId());
 
         }
+            $query =$query->getQuery();
+        return $this->paginator->paginate($query,$search->page,9);
 
 
-
-            return $query->getQuery()->getResult();
+//            return $query->getQuery()->getResult();
     }
 }

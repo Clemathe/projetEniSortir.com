@@ -9,9 +9,15 @@ use DateTime;
 
 
 class FindSortie
-{/**
- * @var string|null
- */
+{
+    /**
+     * @var int
+     */
+    public $page=1;
+
+    /**
+    * @var string|null
+    */
     public $q='';
 
     /**

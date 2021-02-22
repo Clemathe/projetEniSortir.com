@@ -7,9 +7,11 @@
         <div class="col-md-3 col-lg-2">
             {% include 'sortie/_filterSortie.html.twig' with {form: form} only %}
         </div>
+        <br><hr><br>
         <div class="col-md-9 col-lg-10">
-            <div class="grid">
+            <div class="row">
                 {% for sortie in sorties %}
+                    <div class="col-lg-4">
                     <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
 
                         <div class="mainflip">
@@ -42,11 +44,14 @@
                             </div>
                         </div>
                     </div>
-
+                    </div>
                 {% endfor %}
             </div>
-
+            <div class="mt-4">
+                {{ knp_pagination_render(sorties) }}
+            </div>
         </div>
+
     </div>
 {% endblock %}
 

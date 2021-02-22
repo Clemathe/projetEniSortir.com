@@ -52,7 +52,7 @@ class FindForm extends AbstractType
             ])
 
             ->add('subscrided', CheckboxType::class, [
-                'label' => 'mes inscritpions',
+                'label' => 'mes inscriptions',
                 'required' => false
             ])
             ->add('unSubscrided', CheckboxType::class, [
