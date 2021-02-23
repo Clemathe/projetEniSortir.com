@@ -37,22 +37,22 @@ class FindForm extends AbstractType
 //
             ->add('startDate', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'début',
+                'label' => 'Début',
                 'required' => false,
             ])
 
             ->add('endDate', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'fin',
+                'label' => 'Fin',
                 'required' => false,
             ])
             ->add('createdByMe', CheckboxType::class, [
-                'label' => 'mes sorties crée',
+                'label' => 'Mes sorties crée',
                 'required' => false
             ])
 
             ->add('subscrided', CheckboxType::class, [
-                'label' => 'mes inscriptions',
+                'label' => 'Mes inscriptions',
                 'required' => false
             ])
             ->add('unSubscrided', CheckboxType::class, [

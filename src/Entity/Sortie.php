@@ -106,7 +106,7 @@ class Sortie
         return $this->startedDateTime;
     }
 
-    public function setStartedDateTime(\DateTimeInterface $startedDateTime): self
+    public function setStartedDateTime($startedDateTime): self
     {
         $this->startedDateTime = $startedDateTime;
 
@@ -130,7 +130,7 @@ class Sortie
         return $this->deadline;
     }
 
-    public function setDeadline(\DateTimeInterface $deadline): self
+    public function setDeadline( $deadline): self
     {
         $this->deadline = $deadline;
 
@@ -224,7 +224,7 @@ class Sortie
         return $this->lieu;
     }
 
-    public function setLieu(?Lieu $lieu): self
+    public function setLieu( $lieu): self
     {
         $this->lieu = $lieu;
 

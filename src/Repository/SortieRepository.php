@@ -25,17 +25,17 @@ class SortieRepository extends ServiceEntityRepository
      */
     private $paginator;
 
-    public function __construct(ManagerRegistry $registry,Security $security,PaginatorInterface $paginator)
+    public function __construct(ManagerRegistry $registry, Security $security, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Sortie::class);
         $this->security = $security;
-        $this->paginator=$paginator;
+        $this->paginator = $paginator;
     }
 
     /**
      * @return PaginationInterface
      */
-    public function findSearch(FindSortie $search ): PaginationInterface
+    public function findSearch(FindSortie $search): PaginationInterface
     {
 
         $query = $this->createQueryBuilder('s')
@@ -60,7 +60,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('c.name LIKE :campus')
                 ->setParameter('campus', '%' . $search->getCampus() . '%');
         }
-       //ajout de la date de debut
+        //ajout de la date de debut
         if (($search->getStartDate() != null || $search->getStartDate())) {
             $query->andWhere('s.startedDateTime > :dateDebut')
                 ->setParameter('dateDebut', $search->getStartDate());
@@ -70,8 +70,8 @@ class SortieRepository extends ServiceEntityRepository
             $query->andWhere('s.deadline < :dateFin')
                 ->setParameter('dateFin', $search->getEndDate());
         }
-
-        if ($search->createdByMe==true){
+        // Sortie que j'ai organisé
+        if ($search->createdByMe == true) {
             //recherche id User
             /* @var $user User */
             $user = $this->security->getUser();
@@ -80,8 +80,8 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $user->getId());
         }
 
-
-        if ($search->subscrided== true){
+        //
+        if ($search->subscrided == true) {
             //u.id == moi
             /* @var $user User */
             $user = $this->security->getUser();
@@ -90,41 +90,46 @@ class SortieRepository extends ServiceEntityRepository
 
         }
 
-        if ($search->unSubscrided== true){
+        if ($search->unSubscrided == true) {
 
             /* @var $user User */
             $user = $this->security->getUser();
+
             $query->andWhere($query->expr()->notIn('u.id', ':userId'))
                 ->setParameter('userId', $user->getId());
 
+
         }
-            $query =$query->getQuery();
-        return $this->paginator->paginate($query,$search->page,12);
+        $query = $query->getQuery();
+        return $this->paginator->paginate($query, $search->page, 12);
 
 
 //            return $query->getQuery()->getResult();
     }
+
+
     // Afin d'afficher les sorties des user dans leur profil
-    public function getSortiesUser($id = null){
-      $query= $this->createQueryBuilder('s')
-          ->select('l', 's', 'v', 'u')
-          ->join('s.lieu', 'l')
-          ->join('l.ville', 'v')
-          ->join('s.users', 'u');
+    public function getSortiesUser($id = null)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('l', 's', 'v', 'u')
+            ->join('s.lieu', 'l')
+            ->join('l.ville', 'v')
+            ->join('s.users', 'u');
         //Si la fonction contient un id en parametre ( pour les autres utilisateurs en bdd)
-        if (isset($id)){
+        if (isset($id)) {
 
             $query->andWhere('u.id = :Id')
                 ->setParameter('Id', $id);
 
-        // Pour l'utilisateur connecté en session
-        }else{
+            // Pour l'utilisateur connecté en session
+        } else {
             /* @var $user User */
             $user = $this->security->getUser();
             $query->andWhere('u.id = :userId')
                 ->setParameter('userId', $user->getId());
         }
-            return $query->getQuery()->getResult();
+        return $query->getQuery()->getResult();
 
     }
 
