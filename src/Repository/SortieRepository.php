@@ -108,7 +108,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-    // Afin d'afficher les sorties des user dans leur profil
+    // Afin d'afficher les sorties des user.csv dans leur profil
     public function getSortiesUser($id = null)
     {
         $query = $this->createQueryBuilder('s')

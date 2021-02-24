@@ -8,8 +8,9 @@ use App\Entity\User;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -46,22 +47,27 @@ class UserType extends AbstractType
             ->add('telephone', TelType::class,[
                 'attr' => ['placeholder' => 'Votre numéro de téléphone']])
 
-            ->add('photo', FileType::class, [
+            ->add('urlPhoto'
+                , Filetype::class, [
                 'label' => 'Photo (PNG, JPEG)',
-                'mapped' => false,
+                    'data_class' => null,
+                'attr' => [
+                    "aria-describedby" => "fileHelp",
+                    'class' => "form-control-file"],
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
                         'mimeTypes' => [
-                            'image/jpg',
+                            'image/jpeg',
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Merci d\'uploader un format et une taille de fichier valide',
 
                     ])
                 ]
-            ])
+            ]
+            )
 
             ->add('campus', EntityType::class,[
                 'class'=> Campus::class,

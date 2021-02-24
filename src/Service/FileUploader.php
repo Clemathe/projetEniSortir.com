@@ -3,43 +3,43 @@
 
 namespace App\Service;
 
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
 {
+    private $fileTargetDirectory;
     private $targetDirectory;
     private $slugger;
 
-
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct($targetDirectory, $fileTargetDirectory, SluggerInterface $slugger)
     {
-       $this->targetDirectory = $targetDirectory;
-       $this->slugger = $slugger;
-
+        $this->targetDirectory = $targetDirectory;
+        $this->fileTargetDirectory = $fileTargetDirectory;
+        $this->slugger = $slugger;
     }
 
-    public function upload(UploadedFile $photoFile, SluggerInterface $sl)
+    public function upload(UploadedFile $file, SluggerInterface $sl)
     {
 
-
-            $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-            // this is needed to safely include the file name as part of the URL
-            $safeFilename = $sl->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
 
+        $safeFilename = $sl->slug($originalFilename);
+        dump('upload');
 
-                $photoFile->move($this->getTargetDirectory(), $newFilename);
+        if ($file->guessExtension() === "png" || $file->guessExtension() === "jpg") {
+            dump("png/jpg");
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+            $file->move($this->targetDirectory, $newFilename);
 
+        } else {
+            dump("autre extension" . " " . $file->guessExtension());
+            $newFilename = $safeFilename . "." . "csv";
+            $file->move($this->fileTargetDirectory, $newFilename);
+        }
 
         return $newFilename;
-    }
-
-    public function getTargetDirectory()
-    {
-        return $this->targetDirectory;
     }
 
     /**
@@ -57,5 +57,6 @@ class FileUploader
     {
         $this->slugger = $slugger;
     }
+
 
 }

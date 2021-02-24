@@ -68,7 +68,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-       // $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+       // $user.csv = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
         $user = $this->entityManager->getRepository(User::class)
             ->createQueryBuilder('u')
             ->where('u.email = :email OR u.username = :username ')
@@ -92,7 +92,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
+     * Used to upgrade (rehash) the user.csv's password automatically over time.
      */
     public function getPassword($credentials): ?string
     {

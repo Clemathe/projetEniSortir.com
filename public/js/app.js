@@ -1,23 +1,38 @@
-jQuery(document).ready(function () {
+$(document).ready(function () {
 
     var $ville = $('#sortie_form_ville');
     var $token = $("#sortie_form_token");
 
     $ville.change(function() {
+        console.log('ville change');
         var $form = $(this).closest('form');
 
         var data = {};
 
+        // Les données à envoyer en Ajax
         data[$token.attr('name')] = $token.val();
         data[$ville.attr('name')] = $ville.val();
 
+        // Soumission des données
         $.post($form.attr('action'), data).then(function(response)
         {
+            console.log(response);
+            // Recupération du nouveau <select> et remplacement
             $("#sortie_form_lieu").replaceWith(
                 $(response).find('#sortie_form_lieu')
             )
         })
     })
+
+
+
+
+
+
+
+
+
+
 
     // $(document).on('change', '#sortie_form_ville', function () {
     //     let $field = $(this)

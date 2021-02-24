@@ -12,7 +12,7 @@ use Faker;
 
 class MUserFixtures extends Fixture
 {
-    public const USER_REFERENCE = 'user';
+    public const USER_REFERENCE = 'user.csv';
 
     public function load(ObjectManager $manager)
     {

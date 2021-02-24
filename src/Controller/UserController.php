@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Sortie;
+
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\SortieRepository;
@@ -88,7 +88,7 @@ class UserController extends AbstractController
      * @Route ("/edit/{id}", name="user_edit", methods={"GET","POST"})
      */
     public function editProfil(Request $request,
-                               User $user,UserPasswordEncoderInterface $encoder,
+                               User $user, UserPasswordEncoderInterface $encoder,
                                SluggerInterface $slugger, FileUploader $fileUploader){
 
 
@@ -114,11 +114,11 @@ class UserController extends AbstractController
 
     public function setProfilPhoto( $form, $user, $fileUploader, $slugger){
 
-        $photoFile = $form->get('photo')->getData();
+        $photoFile = $form->get('urlPhoto')->getData();
         if ($photoFile) {
             try {
                 $photoFileName = $fileUploader->upload($photoFile, $slugger);
-                $user->setPhoto($photoFileName);
+                $user->setUrlPhoto($photoFileName);
 
             } catch (FileException $e) {
 
