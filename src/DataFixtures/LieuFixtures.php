@@ -41,6 +41,7 @@ class LieuFixtures extends Fixture
     {
         return array(
             AVilleFixtures::class,
+
         );
     }
 }

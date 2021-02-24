@@ -9,8 +9,12 @@
                     <h1>{{ user.username }}</h1>
                     <hr class="my-4">
 
-
+                    {% if 'https://' in user.urlPhoto  %}
                     <img  id="photoProfil" src="{{ asset(user.urlPhoto) }}" class="img-fluid " alt="Responsive image">
+                    {% else %}
+                        <img  id="photoProfil" src="/uploads/photos{{ asset(user.urlPhoto) }}" class="img-fluid " alt="Responsive image">
+                    {% endif %}
+
                     <hr class="my-4">
 
                     <table class="table table-hover" >

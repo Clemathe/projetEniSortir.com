@@ -6,12 +6,14 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
+use App\Form\LieuType;
 use App\Form\SortieFormType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
+use App\Entity\Lieu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,13 +43,20 @@ class SortieController extends AbstractController
         $sortie->setDeadline(new \DateTime());
         $sortie->setStartedDateTime(new \DateTime());
         $sortie->setCampus($this->security->getUser()->getCampus());
+
         $sortieForm = $this->createForm(SortieFormType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+        $lieu = new Lieu();
+        $lieuForm = $this->createForm(LieuType::class, $lieu);
+        $lieuForm->handleRequest($request);
 
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+//            dd( $request->request->get('etat'));
+//            dd(($sortie));
+//            dd($request->request->get('sortie_form[ville]'));
             //recuperer l'user en session et instancie un organisteur
-//            dd($request->request->get('sortie_form[lieu]'));
+
             $id = $this->security->getUser()->getId();
             $organiser = $userRepo->find($id);
 
@@ -59,7 +68,6 @@ class SortieController extends AbstractController
             $id = $request->request->get('etat');
             $etat = $etatRepo->find($id);
             $sortie->setEtat($etat);
-
 
             $em->persist($sortie);
             $em->flush();
@@ -76,7 +84,8 @@ class SortieController extends AbstractController
 
         }
 
-        return $this->render('sortie/nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView()]);
+
+        return $this->render('sortie/nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'lieuForm' => $lieuForm->createView() ]);
     }
 
     /**

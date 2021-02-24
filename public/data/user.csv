@@ -1,0 +1,3 @@
+"campus_id","name","surname","username","email","telephone","roles","password","actif","url_photo"
+"101","Salut","Éric","eric.s","eric@salut.com","08 92 20 41 37","[""ROLE_USER""]","47c17b38ee9f98a00041878308fbe716cbe91e35e9d099285537dfd2c44b5b88","0","https://via.placeholder.com/640x480.png/006666?text=suscipit"
+"104","Olivier","Gérard","gerard.o","gerard.O@aol.com","+33 4 37 10 92 64","[""ROLE_USER""]","9e3af5438dbc4cc9c9b7610c136c087522b455bee54af037f44e5a0719facecc","1","https://via.placeholder.com/640x480.png/0099aa?text=quae"

@@ -7,6 +7,7 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\User;
+use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -61,10 +62,10 @@ class SortieFixtures extends Fixture
     public function getDependencies() : array
     {
         return array(
-            AVilleFixtures::class,
-            LieuFixtures::class,
-            EtatFixtures::class,
+
             CampusFixtures::class,
+            LieuFixtures::class,
+            MUserFixtures::class,
 
         );
     }

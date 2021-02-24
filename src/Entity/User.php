@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -64,7 +66,9 @@ class User implements UserInterface
      */
     private $actif;
 
+
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $urlPhoto;
@@ -83,6 +87,7 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="users")
      */
     private $campus;
+
 
     public function __construct()
     {
@@ -337,11 +342,28 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
 
     public function __toString()
     {
         return $this->campus;
     }
+
 
 
 }

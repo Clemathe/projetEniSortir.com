@@ -15,27 +15,27 @@
                             {{ form_row(sortieForm.StartedDateTime) }}
                             {{ form_row(sortieForm.duration) }}
                             {{ form_row(sortieForm.deadline) }}
+                            {{ form_row(sortieForm.maxNbOfRegistration) }}
                             {{ form_row(sortieForm.description) }}
                         </div>
 
                         <div class="col-lg-6">
-                            {{ form_row(sortieForm.maxNbOfRegistration) }}
+
                             {{ form_row(sortieForm.campus) }}
-                            {{ form_row(sortieForm.ville) }}
+
                             {{ form_row(sortieForm.lieu) }}
-
-
-
+                            {{ form_widget(sortieForm) }}
 
 
                         </div>
                     </div>
                     <div class="row justify-content-center mt-4 ">
 
-                        <button class="btn btn-primary ml-2" type="submit" name="etat" value="1">Enregistrer</button>
-                        <button class="btn btn-primary ml-2" type="submit" name="etat" value="2">Publier</button>
-                        <button class="btn btn-primary ml-2" type="reset">Annuler</button>
+                        <button class="btn btn-primary  ml-2" type="submit" name="etat" value="1">Enregistrer</button>
+                        <button class="btn btn-danger ml-2" type="submit" name="etat" value="2">Publier</button>
+                        <button class="btn btn-danger ml-2" type="reset">Annuler</button>
                         {{ form_end(sortieForm) }}
+
                     </div>
                 </div>
             </div>
@@ -43,6 +43,6 @@
     </div>
 
 {% endblock %}
-{% block javascripts %}
+ {% block javascripts %}
 
-    <script src="{{ asset('js/app.js') }}"></script>{% endblock %}
+ <script src="{{ asset('js/app.js') }}"></script>{% endblock %}

@@ -40,7 +40,7 @@ class Lieu
     private $longitude;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux" )
      * @ORM\JoinColumn(nullable=false)
      */
     private $ville;
@@ -128,22 +128,22 @@ class Lieu
         return $this->sorties;
     }
 
-    public function addSorty(Sortie $sorty): self
+    public function addSorties(Sortie $sortie): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->setLieu($this);
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+            $sortie->setLieu($this);
         }
 
         return $this;
     }
 
-    public function removeSorty(Sortie $sorty): self
+    public function removeSorties(Sortie $sortie): self
     {
-        if ($this->sorties->removeElement($sorty)) {
+        if ($this->sorties->removeElement($sortie)) {
             // set the owning side to null (unless already changed)
-            if ($sorty->getLieu() === $this) {
-                $sorty->setLieu(null);
+            if ($sortie->getLieu() === $this) {
+                $sortie->setLieu(null);
             }
         }
 

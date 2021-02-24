@@ -33,6 +33,8 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
             $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            $user->setRoles(['ROLE_USER']);
             $user->setActif(true);
             $em->persist($user);
             try {

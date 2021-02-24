@@ -125,10 +125,14 @@ class SortieRepository extends ServiceEntityRepository
             // Pour l'utilisateur connecté en session
         } else {
             /* @var $user User */
+
             $user = $this->security->getUser();
-            $query->andWhere('u.id = :userId')
-                ->setParameter('userId', $user->getId());
-        }
+            if($user) {
+                $query->andWhere('u.id = :userId')
+                    ->setParameter('userId', $user->getId());
+            }
+
+            }
         return $query->getQuery()->getResult();
 
     }

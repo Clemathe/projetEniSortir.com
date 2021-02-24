@@ -81,6 +81,7 @@ class Sortie
     public function __construct()
     {
         $this->users = new ArrayCollection();
+
     }
 
 
@@ -242,8 +243,6 @@ class Sortie
 
         return $this;
     }
-
-
 
 
 }
