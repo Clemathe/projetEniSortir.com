@@ -115,7 +115,7 @@ class SortieRepository extends ServiceEntityRepository
     /**
      *  Affiche les sorties des users dans leur profil
      */
-    public function getSortiesUser($id = null): Object
+    public function getSortiesUser($id = null): array
     {
         $query = $this->createQueryBuilder('s')
             ->select('l', 's', 'v', 'u')

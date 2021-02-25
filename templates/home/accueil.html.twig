@@ -11,7 +11,7 @@
             <div class="row">
                 {% for sortie in sorties %}
                     <div class="col-lg-4">
-                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="image-flip" >
 
                         <div class="mainflip">
                             <div class="frontside">
@@ -19,13 +19,16 @@
                                 <div class="card">
                                     <a  href="{{ path('detailSortie_detail',{id: sortie.id})}}" class="btn btn-light stretched-link"></a>
                                     <div class="card-body text-center">
-                                        <h4 class="card-title">{{ sortie.name |capitalize }} </h4>
-                                        <p class="card-text">démarre
+                                        <h3 class="card-title">{{ sortie.name |capitalize }} </h3>
+                                        <p class="card-text text-dark">démarre
                                             le: {{ sortie.StartedDateTime | date('d/m/y') }}</p>
-                                        <p class="card-text">Places
+                                        <p class="card-text text-dark">Places
                                             disponibles: {{ sortie.maxNbOfRegistration }}</p>
-                                        <h4 class="card-title">Ville</h4>
-                                        <p class="card-text">{{ sortie.lieu.ville }}</p>
+                                        <h5 class="card-title">Ville</h5>
+                                        <p class="card-text text-dark">{{ sortie.lieu.ville }}</p>
+                                        <h5 class="card-title">Etat</h5>
+                                        <p class="card-text text-dark">{{ sortie.etat.libelle }}</p>
+
 
                                     </div>
                                 </div>
@@ -36,7 +39,7 @@
                                     <a href="{{ path('detailSortie_detail',{id: sortie.id})}}" class="btn btn-light stretched-link"></a>
                                     <div class="card-body text-center mt-4">
                                         <h4 class="card-title">Description</h4>
-                                        <p class="card-text">{{ sortie.description | u.truncate(250) }}...</p>
+                                        <p class="card-text text-dark">{{ sortie.description | u.truncate(250) }}...</p>
 
                                     </div>
                                 </div>

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Ville;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,9 +13,16 @@ class VilleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('codePostal')
-        ;
+            ->add('name', TextType::class,
+                ['label' => 'Nom',
+                    'attr' => [
+                        'placeholder' => 'Le nom de la ville...']
+                ])
+            ->add('codePostal', TextType::class,
+                ['label' => 'Code Postal',
+                    'attr' => [
+                        'placeholder' => 'Le code postal...']
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

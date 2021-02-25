@@ -6,15 +6,12 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
-use App\Form\LieuType;
-use App\Form\SortieFormType;
+use App\Form\SortieType;
 use App\Models\LogicalModels;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
-use App\Entity\Lieu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,17 +37,18 @@ class SortieController extends AbstractController
      */
     public function add(EntityManagerInterface $em, Request $request, Sortie $sortie = null, UserRepository $userRepo, EtatRepository $etatRepo): Response
     {
+        //Création et set de l'entité
         $sortie = new sortie();
         $sortie->setDeadline(new \DateTime());
         $sortie->setStartedDateTime(new \DateTime());
         $sortie->setCampus($this->security->getUser()->getCampus());
+        $sortie->setDuration(1);
+        $sortie->setMaxNbOfRegistration(1);
 
-        $sortieForm = $this->createForm(SortieFormType::class, $sortie);
+
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        $lieu = new Lieu();
-        $lieuForm = $this->createForm(LieuType::class, $lieu);
-        $lieuForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
@@ -84,7 +82,7 @@ class SortieController extends AbstractController
         }
 
 
-        return $this->render('sortie/nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'lieuForm' => $lieuForm->createView() ]);
+        return $this->render('formSortie.html.twig', ['sortieForm' => $sortieForm->createView(),]);
     }
 
     /**
@@ -188,7 +186,7 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
 
-        return $this->render('sortie/nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'sortie' => $sortie]);
+        return $this->render('nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'sortie' => $sortie]);
 
         //TODO: gerer la modif si etat=1 et faire apparaitre le bouton ou non dans la vue
     }

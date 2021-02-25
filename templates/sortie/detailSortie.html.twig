@@ -95,14 +95,14 @@
 
                 <div class="col-lg-6">
                     <div class=" mb-2">
-                        <p class="d-block mb-2 font-weight-bold ">Description :</p>
-                        <p class=" mx-2 text-justify">{{ sortie.description }}</p>
+                        <p class="d-block mb-2 font-weight-bold text-dark">Description :</p>
+                        <p class=" mx-2 text-justify text-dark">{{ sortie.description }}</p>
                     </div>
 
                     {% set i = 0 %}
                     {% for user in sortie.users %}
 
-                        {# Si le user.csv en session n'est pas l'organisteur et est inscrit à la sortie -> bouton se désincrire  #}
+                        {# Si le user en session n'est pas l'organisteur et est inscrit à la sortie -> bouton se désincrire  #}
 
                         {% if app.user.username == user.username and app.user.id != sortie.organiser.id  %}
                             <a href="{{ path('sortie_desinscription', {id : sortie.id}) }}">
@@ -113,7 +113,7 @@
                         {% endif %}
                     {% endfor %}
 
-                    {# Si le user.csv en session n'est pas l'organisteur  et n'est pas inscrit-> bouton s'inscrire  #}
+                    {# Si le user en session n'est pas l'organisteur  et n'est pas inscrit-> bouton s'inscrire  #}
 
                     {% if i == 0 and app.user.id != sortie.organiser.id   %}
                         <a href="{{ path('sortie_inscription', {id : sortie.id}) }}">
@@ -121,7 +121,7 @@
                         </a>
                     {% endif %}
 
-                    {# Si le user.csv en session est l'oragnisateur -> bouton modifier la sortie #}
+                    {# Si le user en session est l'oragnisateur -> bouton modifier la sortie #}
 
                     {% if app.user.id == sortie.organiser.id %}
                         <a href="{{ path('sortie_modification', {id : sortie.id}) }}">

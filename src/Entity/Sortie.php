@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -21,31 +22,49 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="vous devez indiquer un nom de sortie")
+     * @Assert\Length(min = 2, max = 100,
+     *      minMessage = "Le nom de la ville est trop cours ({{ limit }} caractères min)",
+     *      maxMessage = "Le nom de la ville est trop long ({{ limit }} caractères max)")
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime
+     * @Assert\NotBlank(message="vous devez indiquer une date")
      */
     private $startedDateTime;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive
+     *  @Assert\Length(min = 1, max = 4,
+     *      minMessage = "La durée est trop courte ({{ limit }} caractères min)",
+     *      maxMessage = "La durée est trop longue ({{ limit }} caractères max)")
+     * @Assert\NotBlank(message="vous devez indiquer une durée en heure")
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date
+     * @Assert\NotBlank(message="vous devez indiquer une date")
      */
     private $deadline;
 
     /**
+     * @Assert\NotBlank(message="vous devez indiquer une date limite d'inscription")
      * @ORM\Column(type="integer")
      */
     private $maxNbOfRegistration;
 
     /**
      * @ORM\Column(type="string", length=3000)
+     * @Assert\NotBlank(message="vous devez indiquer une description")
+     * @Assert\Length(min = 15, max = 3000,
+     *      minMessage = "La description est trop courte ({{ limit }} caractères min)",
+     *      maxMessage = "La description est trop longue ({{ limit }} caractères max)")
      */
     private $description;
 
