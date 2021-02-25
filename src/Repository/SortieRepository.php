@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -99,6 +100,9 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere($query->expr()->notIn('u.id', ':userId'))
                 ->setParameter('userId', $user->getId());
 
+            // $sql= "SELECT id, campus_id, organiser_id, lieu_id, etat_id, name, started_date_time, duration, deadline,
+            // max_nb_of_registration, description FROM sortie as s JOIN user_sortie as us ON s.id = us.sortie_id WHERE user_id not in ( 202)";
+
         }
         $query = $query->getQuery();
         return $this->paginator->paginate($query, $search->page, 12);
@@ -109,9 +113,9 @@ class SortieRepository extends ServiceEntityRepository
 
 
     /**
-     *  Afin d'afficher les sorties des user dans leur profil
+     *  Affiche les sorties des users dans leur profil
      */
-    public function getSortiesUser($id = null)
+    public function getSortiesUser($id = null): Object
     {
         $query = $this->createQueryBuilder('s')
             ->select('l', 's', 'v', 'u')
@@ -141,6 +145,7 @@ class SortieRepository extends ServiceEntityRepository
             $query->andWhere('s.name LIKE :nom')
                 ->setParameter('nom', '%' . $search->getQ() . '%')
                 ->json_encode($query);
+
         return $query->getQuery()->getResult();
 
     }

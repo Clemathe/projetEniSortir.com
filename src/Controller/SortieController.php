@@ -8,11 +8,12 @@ use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\LieuType;
 use App\Form\SortieFormType;
+use App\Models\LogicalModels;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Collections\Collection;
+
 use App\Entity\Lieu;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,47 +90,17 @@ class SortieController extends AbstractController
     /**
      * @Route("/inscription/{id}", name="sortie_inscription", requirements={"id" : "\d+"})
      */
-    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id)
+    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id, LogicalModels $modeleLogique)
     {
         $sortie = $sortieRepo->find($id);
-        dump('$sortie');
 
-        // Si les inscriptions sont ouvertes
-        if ($sortie->getEtat()->getLibelle() == 'Ouverte') {
-            dump('a');
+        /* @var $user User */
+        $user = $this->security->getUser();
 
-            // Si la date limite pour les inscritptions n'est pas dépassée
-            if ($sortie->getDeadline() > new \DateTime()) {
-                dump('a');
+        // Test différentes contraintes pour accepter ou refuser une inscription à une sortie et retourne un message
+        $message = $modeleLogique->logicalConstraintsToSaveANewRegistration($sortie, $user, $em);
 
-                // Si le nombre maximum de participants n'est pas depassé
-                if ($sortie->getMaxNbOfRegistration() >= $sortie->getUsers()->count()) {
-
-                    /* @var $user User */
-                    $user = $this->security->getUser();
-
-                    // si l'user n'est pas déjà inscrit
-                    if (!$sortie->getUsers()->contains($user)) {
-                        dump('a');
-                        $user->addSortie($sortie);
-                        $sortie->addUser($user); //TODO Faut il mieux le coder dans la méthode addSortie de User ou inversement ?
-
-                        $em->persist($user);
-                        $em->flush();
-
-                        $this->addFlash('success', 'Vous êtes inscrits');
-                    } else {
-                        $this->addFlash('danger', 'Vous êtes déjà inscrit');
-                    }
-                } else {
-                    $this->addFlash('danger', 'Le nombre maximun de participant est déjà atteint');
-                }
-            } else {
-                $this->addFlash('danger', 'La date d\'inscription est dépassée');
-            }
-        } else {
-            $this->addFlash('danger', 'Les inscriptions ne sont pas ouvertes');
-        }
+        $this->addFlash($message[0], $message[1]);
 
         return $this->redirectToRoute('home');
     }
