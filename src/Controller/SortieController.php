@@ -6,7 +6,7 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
-use App\Form\SortieType;
+use App\Form\SortieFormType;
 use App\Models\LogicalModels;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -46,7 +46,7 @@ class SortieController extends AbstractController
         $sortie->setMaxNbOfRegistration(1);
 
 
-        $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $sortieForm = $this->createForm(SortieFormType::class, $sortie);
         $sortieForm->handleRequest($request);
 
 

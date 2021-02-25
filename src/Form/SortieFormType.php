@@ -20,7 +20,7 @@ class SortieFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => array('placeholder' => 'Le titre...'),
+                'attr' => array('placeholder' => 'Votre titre...'),
                 'label' => 'Nom de la sortie'
             ])
             ->add('StartedDateTime', DateTimeType::class, [
@@ -33,8 +33,9 @@ class SortieFormType extends AbstractType
                     '45', '50', '55']
             ])
             ->add('duration', IntegerType::class, [
+                'label' => 'Durée en heure',
                 'attr' => array('placeholder' => 'La durée en heure(s)...'),
-                'label' => 'Durée'
+
             ])
             ->add('deadline', DateType::class, [
                 'label' => 'Date limite d\'inscription',
@@ -45,7 +46,7 @@ class SortieFormType extends AbstractType
                 'label' => 'Nombre de particpant maximum'
             ])
             ->add('description', TextareaType::class, [
-                'attr' => array('placeholder' => 'Description de la sortie'),
+                'attr' => array('placeholder' => 'Description de la sortie...'),
                 'label' => 'Description'
             ])
             ->add('campus', EntityType::class, [
@@ -58,6 +59,7 @@ class SortieFormType extends AbstractType
                 'mapped' => false,
             ])
             ->add('lieu', LieuType::class, [
+
             ]);
 
     }
