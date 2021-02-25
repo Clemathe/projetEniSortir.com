@@ -63,7 +63,7 @@ class CreateUsersFromFile extends Command
 
     private function getDataFromFile(): array
     {
-        $file = $this->dataDirectory . 'user.csv.csv';
+        $file = $this->dataDirectory . 'user.csv';
 
         $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
