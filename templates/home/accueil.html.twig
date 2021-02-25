@@ -2,7 +2,6 @@
 {% block title %}Acceuil{% endblock %}
 {% block body %}
 
-..
     <div class="row">
         <div class="col-md-3 col-lg-2">
             {% include 'sortie/_filterSortie.html.twig' with {form: form} only %}
@@ -54,4 +53,6 @@
 
     </div>
 {% endblock %}
-
+{% block javascripts %}
+    <script src="{{ asset('js/appForm.js') }}"></script>
+{% endblock %}

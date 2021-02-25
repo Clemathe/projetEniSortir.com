@@ -33,6 +33,7 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
+     * methodes de recherche du champ findForm sur l'acceuil
      * @return PaginationInterface
      */
     public function findSearch(FindSortie $search): PaginationInterface
@@ -103,12 +104,14 @@ class SortieRepository extends ServiceEntityRepository
         $query = $query->getQuery();
         return $this->paginator->paginate($query, $search->page, 12);
 
-
-//            return $query->getQuery()->getResult();
+        // decommenter si retrait du paginator
+        // return $query->getQuery()->getResult();
     }
 
 
-    // Afin d'afficher les sorties des user.csv dans leur profil
+    /**
+     *  Afin d'afficher les sorties des user dans leur profil
+     */
     public function getSortiesUser($id = null)
     {
         $query = $this->createQueryBuilder('s')
@@ -125,16 +128,19 @@ class SortieRepository extends ServiceEntityRepository
             // Pour l'utilisateur connecté en session
         } else {
             /* @var $user User */
-
             $user = $this->security->getUser();
-            if($user) {
-                $query->andWhere('u.id = :userId')
-                    ->setParameter('userId', $user->getId());
-            }
-
-            }
+            $query->andWhere('u.id = :userId')
+                ->setParameter('userId', $user->getId());
+        }
         return $query->getQuery()->getResult();
 
     }
-
+    // function pour la recherche autocompletion dans la search bar
+    public function searchQ($search){
+        $query = $this->createQueryBuilder('s');
+            $query->andWhere('s.name LIKE :nom')
+                ->setParameter('nom', '%' . $search->getQ() . '%')
+                ->json_encode($query);
+        return $query->getQuery()->getResult();
+    }
 }

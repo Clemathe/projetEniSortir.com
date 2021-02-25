@@ -9,6 +9,7 @@ use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,12 +34,9 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_login');
 
         }
-
         // Execution de la procedure stockée de mise à jour des états
         $stmt = $em->getConnection()->prepare("CALL miseAJourEtat()");
         $stmt->execute();
-
-
 
         $data = new FindSortie();
         $data->page=$request->get('page',1);

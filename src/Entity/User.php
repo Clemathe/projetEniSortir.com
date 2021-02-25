@@ -25,15 +25,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180)
+     * @Assert\NotBlank(message="vous devez indiquer votre nom")
+     * @Assert\Length(min=3)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank(message="vous devez indiquer votre prénom")
      * @ORM\Column(type="string", length=180)
      */
     private $surname;
 
     /**
+     * @Assert\NotBlank(message="vous devez indiquer votre pseudo")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
