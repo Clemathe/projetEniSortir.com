@@ -50,7 +50,7 @@ class Sortie
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sortie")
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sortie", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
@@ -66,7 +66,7 @@ class Sortie
     private $organiser;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;

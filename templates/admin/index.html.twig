@@ -39,7 +39,7 @@
                 </thead>
                 {% for user in users %}
                     <tr>
-                        <td><a href="{{ path('admin_profiluser', {id: user.id}) }}">{{ user.username }}</a></td>
+                        <td>{{ user.username }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.surname }}</td>
                         {% if user.telephone is null %}

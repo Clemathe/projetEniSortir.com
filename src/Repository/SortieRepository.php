@@ -33,17 +33,15 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * methodes de recherche du champ findForm sur l'acceuil
      * @return PaginationInterface
      */
     public function findSearch(FindSortie $search): PaginationInterface
     {
 
         $query = $this->createQueryBuilder('s')
-            ->select('l', 's', 'v', 'u')
+            ->select('l', 's', 'v')
             ->join('s.lieu', 'l')
-            ->join('l.ville', 'v')
-            ->join('s.users', 'u');
+            ->join('l.ville', 'v');
 
         // filtre par etat archive et non publié
         $query->andWhere('s.etat NOT IN (1,6,7)');
@@ -81,12 +79,13 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('userId', $user->getId());
         }
 
-        //
+        // Mes inscriptions
         if ($search->subscrided == true) {
             //u.id == moi
             /* @var $user User */
             $user = $this->security->getUser();
-            $query->andWhere('u.id = :userId')
+            $query->join('s.users', 'u')
+                ->andWhere('u.id = :userId')
                 ->setParameter('userId', $user->getId());
 
         }
@@ -96,9 +95,9 @@ class SortieRepository extends ServiceEntityRepository
             /* @var $user User */
             $user = $this->security->getUser();
 
-            $query->andWhere($query->expr()->notIn('u.id', ':userId'))
+            $query->join('s.users', 'u')
+                ->andWhere($query->expr()->notIn('u.id', ':userId'))
                 ->setParameter('userId', $user->getId());
-
 
         }
         $query = $query->getQuery();
@@ -119,13 +118,14 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.lieu', 'l')
             ->join('l.ville', 'v')
             ->join('s.users', 'u');
+
         //Si la fonction contient un id en parametre ( pour les autres utilisateurs en bdd)
         if (isset($id)) {
 
             $query->andWhere('u.id = :Id')
                 ->setParameter('Id', $id);
 
-            // Pour l'utilisateur connecté en session
+        // Pour l'utilisateur connecté en session
         } else {
             /* @var $user User */
             $user = $this->security->getUser();
@@ -142,5 +142,7 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $search->getQ() . '%')
                 ->json_encode($query);
         return $query->getQuery()->getResult();
+
     }
+
 }

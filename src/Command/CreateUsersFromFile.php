@@ -105,7 +105,7 @@ class CreateUsersFromFile extends Command
                     $campus->setId($row['campus_id']);
 
                     $user = new User();
-//                    $user.csv->setCampus($campus);
+//                    $user->setCampus($campus);
                     $user->setName($row['name']);
                     $user->setSurName($row['surname']);
                     $user->setUsername($row['username']);

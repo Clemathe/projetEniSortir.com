@@ -52,10 +52,8 @@ class SortieController extends AbstractController
         $lieuForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-//            dd( $request->request->get('etat'));
-//            dd(($sortie));
-//            dd($request->request->get('sortie_form[ville]'));
-            //recuperer l'user.csv en session et instancie un organisteur
+
+            //recuperer l'user en session et instancie un organisteur
 
             $id = $this->security->getUser()->getId();
             $organiser = $userRepo->find($id);
@@ -110,7 +108,7 @@ class SortieController extends AbstractController
                     /* @var $user User */
                     $user = $this->security->getUser();
 
-                    // si l'user.csv n'est pas déjà inscrit
+                    // si l'user n'est pas déjà inscrit
                     if (!$sortie->getUsers()->contains($user)) {
                         dump('a');
                         $user->addSortie($sortie);
@@ -194,7 +192,7 @@ class SortieController extends AbstractController
                     $participant->removeSortie(); // TODO Plutot que de supprmer les particpants, gerer l'affichage des sorties dans une categorie de sortie annulée
                 }
                 //Supprime la sortie de la liste des sorties crées de l'utilisateur
-                // $user.csv->removeEventCreated($sortie);
+                // $user->removeEventCreated($sortie);
                 $etat->setId(6);
                 $sortie->setEtat($etat);
                 $em->persist($user);

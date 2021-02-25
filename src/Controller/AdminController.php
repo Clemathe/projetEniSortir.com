@@ -65,7 +65,7 @@ class AdminController extends AbstractController
                 $this->addFlash("danger", "creation impossible");
                 return $this->render("Admin/adminInscription.html.twig", [
                     "form" => $form->createView(),
-                    "user.csv" => $user,
+                    "user" => $user,
                 ]);
             }
             $this->addFlash("success", "utlisateur crée    " . $user->getUsername());
@@ -73,7 +73,7 @@ class AdminController extends AbstractController
         }
         return $this->render("Admin/adminInscription.html.twig", [
             "form" => $form->createView(),
-            "user.csv" => $user,
+            "user" => $user,
         ]);
 
     }
@@ -104,7 +104,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin');
         }
         return $this->render('user/edit.html.twig', [
-            'user.csv' => $user,
+            'user' => $user,
             'form' => $form->createView()
         ]);
     }
