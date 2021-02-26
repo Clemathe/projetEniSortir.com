@@ -25,7 +25,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin")
      */
-    public function index(Request $request, FileUploader $fileUploader, SluggerInterface $slugger, FileSerializer $fileSerializer)
+    public function index(Request $request, FileUploader $fileUploader, SluggerInterface $slugger, FileSerializer $fileSerializer): Response
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
@@ -48,7 +48,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/creatUser", name="admin_createuser")
      */
-    public function adminCreateUser(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function adminCreateUser(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -86,7 +86,7 @@ class AdminController extends AbstractController
     public function adminEditUser(User $user,
                                   Request $request,
                                   EntityManagerInterface $em,
-                                  UserPasswordEncoderInterface $encoder)
+                                  UserPasswordEncoderInterface $encoder): Response
     {
 
         $form = $this->createForm(UserType::class, $user);
@@ -113,7 +113,7 @@ class AdminController extends AbstractController
      * @Route ("/admin/ActivateUser/{id}", name="admin_activateuser", methods={"GET","POST"})
      * @param $id
      */
-    public function activateUser($id, Request $request, EntityManagerInterface $em, UserRepository $userRepo)
+    public function activateUser($id, Request $request, EntityManagerInterface $em, UserRepository $userRepo): Response
     {
         $user = $userRepo->find($id);
         $user->setActif(1);
