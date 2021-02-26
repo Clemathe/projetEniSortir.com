@@ -91,7 +91,7 @@ class User implements UserInterface
     private $sorties;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organiser")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organiser", cascade={"remove"})
      */
     private $eventCreated;
 

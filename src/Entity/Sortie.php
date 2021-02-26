@@ -80,7 +80,7 @@ class Sortie
     private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eventCreated")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eventCreated" )
      */
     private $organiser;
 
