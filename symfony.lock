@@ -204,6 +204,18 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "suncat/mobile-detect-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "8284b33273c99974ef84c7e544e94aefac1a4c7f"
+        },
+        "files": [
+            "./config/packages/mobile_detect.yaml"
+        ]
+    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {

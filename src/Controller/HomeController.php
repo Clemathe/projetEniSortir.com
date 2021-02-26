@@ -41,10 +41,12 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         $inscrit= $this->getUser()->getSorties();
 
+
         $sorties = $sortieRepo->findSearch($data);
         if ($sorties == null){
             $this->addFlash('warning', 'Aucun résultat');
-}
+        }
+
         return $this->render('home/accueil.html.twig', ['sorties' => $sorties,
             'form'=> $form->createView()]);
     }
