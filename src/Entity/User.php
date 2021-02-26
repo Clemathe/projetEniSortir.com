@@ -26,18 +26,26 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank(message="vous devez indiquer votre nom")
-     * @Assert\Length(min=3)
+     * @Assert\Length(min = 3, max = 30,
+     *      minMessage = "Le nom  est trop court ({{ limit }} caractères min)",
+     *      maxMessage = "Le nom  est trop long ({{ limit }} caractères max)")
      */
     private $name;
 
     /**
      * @Assert\NotBlank(message="vous devez indiquer votre prénom")
+     * @Assert\Length(min = 3, max = 30,
+     *      minMessage = "Le prénom  est trop court ({{ limit }} caractères min)",
+     *      maxMessage = "Le prénom  est trop long ({{ limit }} caractères max)")
      * @ORM\Column(type="string", length=180)
      */
     private $surname;
 
     /**
      * @Assert\NotBlank(message="vous devez indiquer votre pseudo")
+     * @Assert\Length(min = 2, max = 30,
+     *      minMessage = "Le pseudo  est trop court ({{ limit }} caractères min)",
+     *      maxMessage = "Le pseudo  est trop long ({{ limit }} caractères max)")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;

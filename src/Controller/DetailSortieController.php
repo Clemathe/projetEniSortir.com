@@ -18,7 +18,10 @@ class DetailSortieController extends AbstractController
      * Controller de la vue détaillée d'une sortie
      */
     public function detail(SortieRepository $sortieRepo, $id): Response
-    {
+    {if (is_null($this->security->getUser())){
+        return $this->redirectToRoute('app_login');
+
+    }
 
         $sortie = $sortieRepo->find($id);
 
@@ -27,4 +30,7 @@ class DetailSortieController extends AbstractController
 
         ]);
     }
+
+
+
 }
