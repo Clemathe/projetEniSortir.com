@@ -10,6 +10,11 @@ use Symfony\Component\Validator\Constraints\File;
 
 class FileFormType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * Utiliser pour uploader un fichier (template admin)
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('urlFile', FileType::class
@@ -22,9 +27,7 @@ class FileFormType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'application/csv',
-                        ],
+                        'mimeTypes' => [],
                         'mimeTypesMessage' => 'Merci d\'uploader un format et une taille de fichier valide',
 
                     ])

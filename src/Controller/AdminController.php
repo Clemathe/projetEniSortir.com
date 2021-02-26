@@ -10,9 +10,9 @@ use App\Repository\UserRepository;
 use App\Service\FileSerializer;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -154,10 +154,17 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin');
     }
 
-    /*
+    /**
+     * @param $form
+     * @param $fileUploader
+     * @param $slugger
+     * @param $fileSerializer
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * Appel FileUploader et permet à l'administrateur d'uploader un fichier au format csv, xml ou yaml
      */
-    public function getUploadedFiles($form, $fileUploader, $slugger, $fileSerializer)
+
+    public function getUploadedFiles($form, $fileUploader, $slugger, $fileSerializer): Response
     {
 
         $file = $form->get('urlFile')->getData();

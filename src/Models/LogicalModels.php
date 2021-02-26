@@ -3,9 +3,6 @@
 
 namespace App\Models;
 
-
-
-
 use App\Entity\Sortie;
 use App\Entity\User;
 use DateTime;
@@ -19,9 +16,12 @@ class LogicalModels
      * @param User $user
      * @param EntityManagerInterface $em
      * @return string[]
+     *
      * Test différentes contraintes afin d'accepter ou de refuser une inscription à une sortie
      */
-    public function logicalConstraintsToSaveANewRegistration(Sortie $sortie, User $user, EntityManagerInterface $em): array
+    public function logicalConstraintsToSaveANewRegistration(User $user,
+                                                             Sortie $sortie,
+                                                             EntityManagerInterface $em): array
     {
         // Si les inscriptions sont ouvertes
         if ($sortie->getEtat()->getLibelle() == 'Ouverte') {

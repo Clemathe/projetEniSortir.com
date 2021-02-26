@@ -20,7 +20,8 @@
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Nombre de places :</th>
-                            <td>{{ (sortie.maxNbOfRegistration - sortie.users|length) }} disponible sur {{ sortie.maxNbOfRegistration }}</td>
+                            <td>{{ (sortie.maxNbOfRegistration - sortie.users|length) }} disponible
+                                sur {{ sortie.maxNbOfRegistration }}</td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Durée :</th>
@@ -79,9 +80,9 @@
 
                                 <tr>
                                     <td><a href="{{ path('other_user_profil', {id: user.id}) }}">
-                                            {{ user.username   }}</a></td>
-                                    <td>{{ user.name | capitalize  }}</td>
-                                    <td>{{ user.surname | capitalize  }}</td>
+                                            {{ user.username }}</a></td>
+                                    <td>{{ user.name | capitalize }}</td>
+                                    <td>{{ user.surname | capitalize }}</td>
 
                                 </tr>
                             {% endfor %}
@@ -102,9 +103,9 @@
                     {% set i = 0 %}
                     {% for user in sortie.users %}
 
-                        {# Si le user en session n'est pas l'organisteur et est inscrit à la sortie -> bouton se désincrire  #}
+                        {# Si le user en session n'est pas l'organisteur et est inscrit à la sortie -> bouton se désincrire #}
 
-                        {% if app.user.username == user.username and app.user.id != sortie.organiser.id  %}
+                        {% if app.user.username == user.username and app.user.id != sortie.organiser.id %}
                             <a href="{{ path('sortie_desinscription', {id : sortie.id}) }}">
                                 <button class="btn btn-primary">Se désincrire</button>
                             </a>
@@ -113,20 +114,28 @@
                         {% endif %}
                     {% endfor %}
 
-                    {# Si le user en session n'est pas l'organisteur  et n'est pas inscrit-> bouton s'inscrire  #}
+                    {# Si le user en session n'est pas l'organisteur  et n'est pas inscrit-> bouton s'inscrire #}
 
-                    {% if i == 0 and app.user.id != sortie.organiser.id   %}
+                    {% if i == 0 and app.user.id != sortie.organiser.id %}
                         <a href="{{ path('sortie_inscription', {id : sortie.id}) }}">
                             <button class="btn btn-primary">S'inscrire</button>
                         </a>
                     {% endif %}
 
-                    {# Si le user en session est l'oragnisateur -> bouton modifier la sortie #}
+                    {# Si le user en session est l'oragnisateur -> boutons modifier et annuler la sortie #}
 
                     {% if app.user.id == sortie.organiser.id %}
                         <a href="{{ path('sortie_modification', {id : sortie.id}) }}">
                             <button class="btn btn-primary">Modifier</button>
                         </a>
+                        <a href="{{ path('sortie_annulation', {id : sortie.id}) }}">
+                            <button class="btn btn-primary">Annuler</button>
+                        </a>
+                        {% if sortie.etat.id == 1 %}
+                            <a href="{{ path('home', {id : sortie.id}) }}">
+                                <button class="btn btn-primary">Publier</button>
+                            </a>
+                        {% endif %}
                     {% endif %}
 
                 </div>

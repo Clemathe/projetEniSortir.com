@@ -4,12 +4,15 @@
 namespace App\Models;
 
 
-use App\Entity\Sortie;
+use Doctrine\ORM\EntityManagerInterface;
 
 class EtatUpdater
 {
-    public function miseAJourEtat(Sortie $sortie){
+    public function miseAJourEtat(EntityManagerInterface $em) : void
+    {
 
+        $stmt = $em->getConnection()->prepare("CALL miseAJourEtat()");
+        $stmt->execute();
 
     }
 }

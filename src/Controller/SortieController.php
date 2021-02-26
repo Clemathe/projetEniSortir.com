@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Entity\Etat;
+
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\SortieFormType;
@@ -11,6 +11,7 @@ use App\Models\LogicalModels;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,8 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="sortie_add")
      */
-    public function add(EntityManagerInterface $em, Request $request, Sortie $sortie = null, UserRepository $userRepo, EtatRepository $etatRepo): Response
+    public function add(EntityManagerInterface $em, Request $request,
+                        UserRepository $userRepo, EtatRepository $etatRepo): Response
     {
         //Création et set de l'entité
         $sortie = new sortie();
@@ -52,16 +54,14 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
-            //recuperer l'user en session et instancie un organisteur
-
+            // Recuperère l'user en session et instancie un organisteur
             $id = $this->security->getUser()->getId();
             $organiser = $userRepo->find($id);
 
             $organiser->addEventCreated($sortie);
             $sortie->setOrganiser($organiser);
 
-            // instancie Etat et récupère l'état via les boutons publier ou enregistrer
-
+            // Instancie Etat et récupère l'état via les boutons publier (2) ou enregistrer (1)
             $id = $request->request->get('etat');
             $etat = $etatRepo->find($id);
             $sortie->setEtat($etat);
@@ -69,7 +69,7 @@ class SortieController extends AbstractController
             $em->persist($sortie);
             $em->flush();
 
-            //Gestion de l'affichage d'un message de succès ou d'echec
+            //Gestion de l'affichage d'un message de succès ou d'echec en fonction de l'état de la sortie
             if ($etat->getId() == 2) {
                 $this->addFlash('success', 'La sortie a été publiée');
             } else if ($etat->getId() == 1) {
@@ -82,13 +82,16 @@ class SortieController extends AbstractController
         }
 
 
-        return $this->render('formSortie.html.twig', ['sortieForm' => $sortieForm->createView(),]);
+        return $this->render('nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(),]);
     }
 
     /**
      * @Route("/inscription/{id}", name="sortie_inscription", requirements={"id" : "\d+"})
+     *
+     * Permet l'incription d'un utilisateur à une sortie
      */
-    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id, LogicalModels $modeleLogique)
+    public function inscription(EntityManagerInterface $em, SortieRepository $sortieRepo,
+                                $id, LogicalModels $modeleLogique): Response
     {
         $sortie = $sortieRepo->find($id);
 
@@ -96,7 +99,7 @@ class SortieController extends AbstractController
         $user = $this->security->getUser();
 
         // Test différentes contraintes pour accepter ou refuser une inscription à une sortie et retourne un message
-        $message = $modeleLogique->logicalConstraintsToSaveANewRegistration($sortie, $user, $em);
+        $message = $modeleLogique->logicalConstraintsToSaveANewRegistration($user, $sortie, $em);
 
         $this->addFlash($message[0], $message[1]);
 
@@ -105,20 +108,22 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/desinscription/{id}", name="sortie_desinscription", requirements={"id" : "\d+"})
-     * @Route("/desinscription/{id}/{profil}", name="sortie_desinscription_profil")
+     * @Route("/desinscription/{id}/{profil}", name="sortie_desinscription_profil", requirements={"id" : "\d+"})
+     *
+     * Permet à l'utilisateur de se désincrire d'une sortie
      */
-    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id, $profil = null)
+    public function desinscription(EntityManagerInterface $em, SortieRepository $sortieRepo, $id, $profil = null): Response
     {
 
         $sortie = $sortieRepo->find($id);
 
         // Si la date actuelle est plus petite que la date de la sortie
-        if (new \DateTime < $sortie->getStartedDateTime()) {
+        if (new DateTime < $sortie->getStartedDateTime()) {
             /* @var $user User */
             $user = $this->security->getUser();
 
             $user->removeSortie($sortie);
-            $sortie->removeUser($user); //TODO Faut il mieux le coder dans la méthode removeSortie de User ou inversement ?
+            $sortie->removeUser($user);
 
             $em->persist($user);
             $em->flush();
@@ -135,37 +140,33 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/annulation", name="sortie_annulation")
+     * @Route("/annulation/{id}", name="sortie_annulation", requirements={"id" : "\d+"})
+     *
+     * Permet l'annulation d'une sortie d'une sortie
      */
-    public function annulation(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request)
+    public function annulation(EntityManagerInterface $em, SortieRepository $sortieRepo,
+                               EtatRepository $etatRepo, $id): Response
     {
         /* @var $user User */
         $user = $this->security->getUser();
 
-        $etat = new Etat();
+        $sortie = $sortieRepo->find($id);
 
+        $etat = $etatRepo->find($id = 6);
 
-        $idSortie = $request->request->get('idSortie');
-        $sortie = $sortieRepo->find($idSortie);
-
-        // Si l'id utilisateur est égal à l'id organisateur
-
+        // Si l'utilisateur en session est  l'organisateur de la sortie
         if ($user->getId() == $sortie->getOrganiser()->getId()) {
 
-
             //Si la date de la sortie est déjà dépassé
-            if (new \DateTime < $sortie->getStartedDateTime()) {
-                $participants = $sortie->getUsers();
-                // Supprime la sortie dans la liste des sorties des users
-                foreach ($participants as $participant) {
-                    $participant->removeSortie(); // TODO Plutot que de supprmer les particpants, gerer l'affichage des sorties dans une categorie de sortie annulée
-                }
-                //Supprime la sortie de la liste des sorties crées de l'utilisateur
-                // $user->removeEventCreated($sortie);
+            if (new DateTime < $sortie->getStartedDateTime()) {
+
                 $etat->setId(6);
+                // passage de la sortie à l'état annulée
                 $sortie->setEtat($etat);
                 $em->persist($user);
                 $em->flush();
+
+                $this->addFlash('error', 'La sortie a bien été annulée');
 
             } else {
                 $this->addFlash('error', 'La sortie est terminée, impossible de l\'annuler');
@@ -174,13 +175,14 @@ class SortieController extends AbstractController
             $this->addFlash('error', 'Vous n\'êtes pas l\'organisateur, impossible de supprimer la sortie');
         }
 
-
+        return $this->redirectToRoute('home');
     }
 
     /**
      * @Route("/modification/{id}", name="sortie_modification", requirements={"id" : "\d+"})
      */
-    public function modification(EntityManagerInterface $em, SortieRepository $sortieRepo, Request $request, Sortie $sortie)
+    public
+    function modification(Request $request, Sortie $sortie): Response
     {
         $sortieForm = $this->createForm(SortieFormType::class, $sortie);
         $sortieForm->handleRequest($request);

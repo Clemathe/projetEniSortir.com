@@ -9,40 +9,42 @@
                     <h1>{{ user.username }}</h1>
                     <hr class="my-4">
 
-                    {% if 'https://' in user.urlPhoto  %}
-                    <img  id="photoProfil" src="{{ asset(user.urlPhoto) }}" class="img-fluid " alt="Responsive image">
+                    {% if 'https://' in user.urlPhoto %}
+                        <img id="photoProfil" src="{{ asset(user.urlPhoto) }}" class="img-fluid "
+                             alt="Responsive image">
                     {% else %}
-                        <img  id="photoProfil" src="/uploads/photos{{ asset(user.urlPhoto) }}" class="img-fluid " alt="Responsive image">
+                        <img id="photoProfil" src="/uploads/photos{{ asset(user.urlPhoto) }}" class="img-fluid "
+                             alt="Responsive image">
                     {% endif %}
 
                     <hr class="my-4">
 
-                    <table class="table table-hover" >
+                    <table class="table table-hover">
                         <tbody>
 
                         <tr class="table-light">
-                            <th scope="row">Nom: </th>
+                            <th scope="row">Nom:</th>
                             <td>{{ user.name }}</td>
                         </tr>
                         <tr class="table-light">
-                            <th scope="row">Prénom: </th>
+                            <th scope="row">Prénom:</th>
                             <td>{{ user.surname }}</td>
                         </tr>
                         <tr class="table-light">
-                            <th scope="row">email: </th>
+                            <th scope="row">email:</th>
                             <td>{{ user.email }}</td>
                         </tr>
                         </tr>
                         <tr class="table-light">
-                            <th scope="row">telephone: </th>
+                            <th scope="row">telephone:</th>
                             <td>{{ user.telephone }}</td>
                         </tr>
                         <tr class="table-light">
-                            <th scope="row">campus: </th>
+                            <th scope="row">campus:</th>
                             <td>{{ user.campus.name }}</td>
                         </tr>
                         <tr class="table-light">
-                            <th scope="row">Sorties : </th>
+                            <th scope="row">Sorties :</th>
 
                         </tr>
 
@@ -57,21 +59,27 @@
                                 <th scope="col">Sortie</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Ville</th>
+                                <th scope="col">Etat</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <label
+
+                            {# Affiche les sorties utilisateurs #}
                             {% for sortie in sorties %}
 
                                 <tr>
-                                    <td><a href="{{ path('detailSortie_detail', {id: sortie.id}) }}">{{ sortie.name   }}</a></td>
+                                    <td>
+                                        <a href="{{ path('detailSortie_detail', {id: sortie.id}) }}">{{ sortie.name }}</a>
+                                    </td>
                                     <td>{{ sortie.startedDateTime | format_datetime('full', 'short', locale='fr') }}</td>
-                                    <td>{{ sortie.lieu.ville | capitalize  }}</td>
+                                    <td>{{ sortie.lieu.ville | capitalize }}</td>
+                                    <td>{{ sortie.etat.libelle | capitalize }}</td>
 
                                     {% if app.user.username == user.username %}
-                                    <td> <a href="{{ path('sortie_desinscription_profil', {id : sortie.id, profil: 1 }) }}">
-                                            <button class="btn btn-primary" >Se désincrire</button>
-                                        </a></td>
+                                        <td>
+                                            <a href="{{ path('sortie_desinscription_profil', {id : sortie.id, profil: 1 }) }}">
+                                                <button class="btn btn-primary">Se désincrire</button>
+                                            </a></td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
@@ -81,7 +89,8 @@
                     </div>
                     <hr class="my-4">
                     {% if app.user.username == user.username %}
-                        <a type="button" class="btn btn-info" href="{{ path('user_edit',{'id': app.user.id})}}">Modifier mon profil</a>
+                        <a type="button" class="btn btn-info" href="{{ path('user_edit',{'id': app.user.id}) }}">Modifier
+                            mon profil</a>
                     {% endif %}
                 </div>
             </div>

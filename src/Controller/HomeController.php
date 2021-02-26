@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 use App\data\FindSortie;
-use App\Entity\User;
 use App\Form\FindForm;
+use App\Models\EtatUpdater;
 use App\Repository\SortieRepository;
-use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,15 +25,15 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function accueil(Request $request, SortieRepository $sortieRepo,UserRepository $userRepo,EntityManagerInterface $em,Security $security): Response
+    public function accueil(Request $request, SortieRepository $sortieRepo,
+                           EntityManagerInterface $em, EtatUpdater $updateEtat): Response
     {
         if (is_null($this->security->getUser())){
             return $this->redirectToRoute('app_login');
 
         }
-        // Execution de la procedure stockée de mise à jour des états
-        $stmt = $em->getConnection()->prepare("CALL miseAJourEtat()");
-        $stmt->execute();
+        // Appel de la méthode pour le lancement de la procedure stockée de mise à jour des états
+        $updateEtat->miseAJourEtat($em);
 
         $data = new FindSortie();
         $data->page=$request->get('page',1);

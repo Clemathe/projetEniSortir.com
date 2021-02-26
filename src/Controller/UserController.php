@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Models\EtatUpdater;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
@@ -69,11 +70,17 @@ class UserController extends AbstractController
      * @Route("/profil", name="user_profil")
      * @Route("/profil/{id}", name="other_user_profil", requirements={"id" : "\d+"})
      */
-    public function profilView(UserRepository $userRepo, $id = null, Security $security, SortieRepository $sortieRepo)
+    public function profilView(UserRepository $userRepo,
+                               EntityManagerInterface $em, EtatUpdater $updateEtat,
+                               SortieRepository $sortieRepo, Security $security, $id = null): Response
     {
 
         // Pour les profils utilisateurs en bdd sauf celui en session
         if (isset($id)) {
+
+            // Lancement de la procedure stockée de mise à jour des états
+            $updateEtat->miseAJourEtat($em);
+            
             $user = $userRepo->find($id);
             $sorties = $sortieRepo->getSortiesUser($id);
 
@@ -90,9 +97,9 @@ class UserController extends AbstractController
     /**
      * @Route ("/edit/{id}", name="user_edit", methods={"GET","POST"})
      */
-    public function editProfil(Request $request,
-                               User $user, UserPasswordEncoderInterface $encoder,
-                               SluggerInterface $slugger, FileUploader $fileUploader)
+    public function editProfil(Request $request, User $user,
+                               UserPasswordEncoderInterface $encoder,
+                               SluggerInterface $slugger, FileUploader $fileUploader): Response
     {
 
 
@@ -110,13 +117,24 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('user_profil');
         }
+
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView()
         ]);
     }
 
-    public function setProfilPhoto($form, $user, $fileUploader, $slugger)
+    /**
+     * @param $form
+     * @param $user
+     * @param $fileUploader
+     * @param $slugger
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * Permet d'uploader une photo et de setter l'url à un user
+     */
+    public
+    function setProfilPhoto($form, $user, $fileUploader, $slugger)
     {
 
         $photoFile = $form->get('urlPhoto')->getData();
