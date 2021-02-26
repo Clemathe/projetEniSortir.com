@@ -9,7 +9,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -55,6 +54,7 @@ class SortieRepository extends ServiceEntityRepository
         //ajout de la checkbox du campus dans la requete
         if ($search->getCampus() != '') {
             $query
+                ->join('s.users', 'u')
                 ->join('u.campus', 'c')
                 ->andWhere('s.etat NOT IN (1,6,7)')
                 ->andWhere('c.name LIKE :campus')
@@ -104,6 +104,7 @@ class SortieRepository extends ServiceEntityRepository
             // max_nb_of_registration, description FROM sortie as s JOIN user_sortie as us ON s.id = us.sortie_id WHERE user_id not in ( 202)";
 
         }
+
         $query = $query->getQuery();
         return $this->paginator->paginate($query, $search->page, 12);
 

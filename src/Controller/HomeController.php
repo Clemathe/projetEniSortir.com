@@ -32,7 +32,7 @@ class HomeController extends AbstractController
 
         }
         // Appel de la méthode pour le lancement de la procedure stockée de mise à jour des états
-        $updateEtat->miseAJourEtat($em);
+        //$updateEtat->miseAJourEtat($em);
 
         $data = new FindSortie();
         $data->page=$request->get('page',1);
@@ -42,8 +42,8 @@ class HomeController extends AbstractController
 
 
         $sorties = $sortieRepo->findSearch($data);
-        if ($sorties == null){
-            $this->addFlash('warning', 'Aucun résultat');
+        if ($sorties === null){
+            $this->addFlash('success', 'Aucun résultat');
         }
 
         return $this->render('home/accueil.html.twig', ['sorties' => $sorties,
