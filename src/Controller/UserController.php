@@ -51,7 +51,7 @@ class UserController extends AbstractController
             try {
                 $em->flush();
             } catch (\Exception $error) {
-                $this->addFlash("danger", "creation de votre compte impossible");
+                $this->addFlash("danger", "création de votre compte impossible");
                 return $this->render("user/inscription.html.twig", [
                     "form" => $form->createView(),
                     "user" => $user,

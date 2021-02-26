@@ -1,11 +1,5 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-/*media query */
 
-/* Paragraphes en bleu par défaut */
-p
-{
-    color: blue;
-}
 
 /* media query */
 @media screen and (max-width: 450px)

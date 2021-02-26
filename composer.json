@@ -7,6 +7,7 @@
         "php": ">=7.4.9",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
@@ -15,6 +16,7 @@
         "doctrine/orm": "^2.8",
         "fakerphp/faker": "^1.13",
         "knplabs/knp-paginator-bundle": "^5.4",
+        "mobiledetect/mobiledetectlib": "^2.8",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
@@ -46,7 +48,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.3",
         "twig/string-extra": "^3.3",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "suncat/mobile-detect-bundle": "dev-master"
     },
     "require-dev": {
         "hautelook/alice-bundle": "^2.8",
