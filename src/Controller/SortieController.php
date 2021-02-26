@@ -75,7 +75,7 @@ class SortieController extends AbstractController
             } else if ($etat->getId() == 1) {
                 $this->addFlash('success', 'La sortie a été sauvegardée');
             } else {
-                $this->addFlash('error', 'Un problème est survenu');
+                $this->addFlash('danger', 'Un problème est survenu');
             }
             return $this->redirectToRoute('home', []);
 
@@ -133,7 +133,7 @@ class SortieController extends AbstractController
             if ($profil)
                 return $this->redirectToRoute('user_profil');
         } else {
-            $this->addFlash('error', 'La sortie est commencée ou a déjà eu lieu, impossible de se désinscrire');
+            $this->addFlash('danger', 'La sortie est commencée ou a déjà eu lieu, impossible de se désinscrire');
         }
 
         return $this->redirectToRoute('home');
