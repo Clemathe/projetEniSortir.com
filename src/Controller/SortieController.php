@@ -103,7 +103,7 @@ class SortieController extends AbstractController
 
         $this->addFlash($message[0], $message[1]);
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('detailSortie_detail', ['id' => $id]);
     }
 
     /**
@@ -128,7 +128,7 @@ class SortieController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Vous êtes desinscrits de la sortie');
+            $this->addFlash('warning', 'Vous êtes desinscrits de la sortie');
 
             if ($profil)
                 return $this->redirectToRoute('user_profil');
@@ -136,7 +136,7 @@ class SortieController extends AbstractController
             $this->addFlash('danger', 'La sortie est commencée ou a déjà eu lieu, impossible de se désinscrire');
         }
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('detailSortie_detail', ['id' => $id]);
     }
 
     /**
