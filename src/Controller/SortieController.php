@@ -142,10 +142,10 @@ class SortieController extends AbstractController
     /**
      * @Route("/annulation/{id}", name="sortie_annulation", requirements={"id" : "\d+"})
      *
-     * Permet l'annulation d'une sortie d'une sortie
+     * Permet l'annulation d'une sortie
      */
     public function annulation(EntityManagerInterface $em, SortieRepository $sortieRepo,
-                               EtatRepository $etatRepo, $id): Response
+                               EtatRepository $etatRepo, LogicalModels $modeleLogique, $id): Response
     {
         /* @var $user User */
         $user = $this->security->getUser();
@@ -154,26 +154,9 @@ class SortieController extends AbstractController
 
         $etat = $etatRepo->find($id = 6);
 
-        // Si l'utilisateur en session est  l'organisateur de la sortie
-        if ($user->getId() == $sortie->getOrganiser()->getId()) {
+        $message = $modeleLogique->logicalConstraintsToCanceledASortie($user, $sortie, $etat, $em);
 
-            //Si la date de la sortie est déjà dépassé
-            if (new DateTime < $sortie->getStartedDateTime()) {
-
-                $etat->setId(6);
-                // passage de la sortie à l'état annulée
-                $sortie->setEtat($etat);
-                $em->persist($user);
-                $em->flush();
-
-                $this->addFlash('error', 'La sortie a bien été annulée');
-
-            } else {
-                $this->addFlash('error', 'La sortie est terminée, impossible de l\'annuler');
-            }
-        } else {
-            $this->addFlash('error', 'Vous n\'êtes pas l\'organisateur, impossible de supprimer la sortie');
-        }
+        $this->addFlash($message[0], $message[1]);
 
         return $this->redirectToRoute('home');
     }
@@ -190,7 +173,7 @@ class SortieController extends AbstractController
 
         return $this->render('nouvelleSortie.html.twig', ['sortieForm' => $sortieForm->createView(), 'sortie' => $sortie]);
 
-        //TODO: gerer la modif si etat=1 et faire apparaitre le bouton ou non dans la vue
+
     }
 
 

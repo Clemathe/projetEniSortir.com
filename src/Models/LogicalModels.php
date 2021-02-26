@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Entity\User;
 use DateTime;
@@ -53,6 +54,41 @@ class LogicalModels
             }
         } else {
             return ['danger', 'Les inscriptions ne sont pas ouvertes'];
+        }
+    }
+
+    /**
+     * @param User $user
+     * @param Sortie $sortie
+     * @param Etat $etat
+     * @param EntityManagerInterface $em
+     * @return array
+     *
+     * Test différentes contraintes afin d'accepter ou de refuser l'annulation d'une sortie
+     */
+    public function logicalConstraintsToCanceledASortie(User $user, Sortie $sortie,
+                                                        Etat $etat, EntityManagerInterface $em): array
+    {
+
+        // Si l'utilisateur en session est l'organisateur de la sortie
+        if ($user->getId() == $sortie->getOrganiser()->getId()) {
+
+            //Si la date de la sortie est déjà dépassé
+            if (new DateTime < $sortie->getStartedDateTime()) {
+
+
+                // passage de la sortie à l'état annulée
+                $sortie->setEtat($etat);
+                $em->persist($user);
+                $em->flush();
+
+                return['success', 'La sortie a bien été annulée'];
+
+            } else {
+                return['danger', 'La sortie est terminée ou en cours, impossible de l\'annuler'];
+            }
+        } else {
+            return['danger', 'Vous n\'êtes pas l\'organisateur, impossible de supprimer la sortie'];
         }
     }
 }
