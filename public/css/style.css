@@ -23,12 +23,12 @@ body{
 
 }
 /* css navbar */
-.navbar navbar-expand-lg navbar-dark bg-primary {
+.navbar navbar-expand-lg navbar-ligth bg-primary {
     display: block;
     position: sticky;
     top: 20px;
 }
-.btn btn-primary {
+.btn btn-btn  {
     border-top: 1px solid #f0f0f0;
     background: #65a9d7;
     background: -webkit-gradient(linear, left top, left bottom, from(#2d6c96), to(#65a9d7));
