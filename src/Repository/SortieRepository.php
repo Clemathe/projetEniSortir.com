@@ -44,12 +44,11 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.lieu', 'l')
             ->join('l.ville', 'v');
 
-        // filtre par etat archive et non publié
-        $query->andWhere('s.etat NOT IN (1,6,7)');
+
 
         //ajout de la zone de recherche dans la requete
         if ($search->getQ() != null || $search->getQ() != '') {
-            $query->andWhere('s.name LIKE :nom')
+            $query->andWhere('s.etat NOT IN (1,6,7)')->andWhere('s.name LIKE :nom')
                 ->setParameter('nom', '%' . $search->getQ() . '%');
         }
 
@@ -57,17 +56,18 @@ class SortieRepository extends ServiceEntityRepository
         if ($search->getCampus() != '') {
             $query
                 ->join('u.campus', 'c')
+                ->andWhere('s.etat NOT IN (1,6,7)')
                 ->andWhere('c.name LIKE :campus')
                 ->setParameter('campus', '%' . $search->getCampus() . '%');
         }
         //ajout de la date de debut
         if (($search->getStartDate() != null || $search->getStartDate())) {
-            $query->andWhere('s.startedDateTime > :dateDebut')
+            $query->andWhere('s.startedDateTime > :dateDebut')->andWhere('s.etat NOT IN (1,6,7)')
                 ->setParameter('dateDebut', $search->getStartDate());
         }
         //ajout de la date de fin
         if (($search->getEndDate() != null || $search->getEndDate())) {
-            $query->andWhere('s.deadline < :dateFin')
+            $query->andWhere('s.deadline < :dateFin')->andWhere('s.etat NOT IN (1,6,7)')
                 ->setParameter('dateFin', $search->getEndDate());
         }
         // Sortie que j'ai organisé

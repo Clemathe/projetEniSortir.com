@@ -20,8 +20,8 @@
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Nombre de places :</th>
-                            <td>{{ (sortie.maxNbOfRegistration - sortie.users|length) }} disponible
-                                sur {{ sortie.maxNbOfRegistration }}</td>
+                            <td>{{ ((sortie.maxNbOfRegistration - sortie.users|length)) }} place(s)
+                                disponible {{ sortie.maxNbOfRegistration }} </td>
                         </tr>
                         <tr class="table-light">
                             <th scope="row">Durée :</th>
@@ -125,16 +125,25 @@
                     {# Si le user en session est l'oragnisateur -> boutons modifier et annuler la sortie #}
 
                     {% if app.user.id == sortie.organiser.id %}
-                        <a href="{{ path('sortie_modification', {id : sortie.id}) }}">
-                            <button class="btn btn-primary">Modifier</button>
-                        </a>
-                        <a href="{{ path('sortie_annulation', {id : sortie.id}) }}">
-                            <button class="btn btn-primary">Annuler</button>
-                        </a>
-                        {% if sortie.etat.id == 1 %}
-                            <a href="{{ path('home', {id : sortie.id}) }}">
-                                <button class="btn btn-primary">Publier</button>
-                            </a>
+                        {% if sortie.etat.id != 7 %}
+                            {% if sortie.etat.id != 6 %}
+                                {% if sortie.etat.id != 5 %}
+                                    <a href="{{ path('sortie_modification', {id : sortie.id}) }}">
+                                        <button class="btn btn-primary">Modifier</button>
+                                    </a>
+
+
+                                        <a href="{{ path('sortie_annulation', {id : sortie.id}) }}">
+                                            <button class="btn btn-primary">Annuler</button>
+                                        </a>
+
+                                    {% if sortie.etat.id == 1 %}
+                                        <a href="{{ path('home', {id : sortie.id}) }}">
+                                            <button class="btn btn-primary">Publier</button>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
 
