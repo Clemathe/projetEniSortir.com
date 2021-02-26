@@ -133,8 +133,10 @@ class SortieRepository extends ServiceEntityRepository
         } else {
             /* @var $user User */
             $user = $this->security->getUser();
-            $query->andWhere('u.id = :userId')
-                ->setParameter('userId', $user->getId());
+            if ($user) {
+                $query->andWhere('u.id = :userId')
+                    ->setParameter('userId', $user->getId());
+            }
         }
         return $query->getQuery()->getResult();
 
