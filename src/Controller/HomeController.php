@@ -21,7 +21,6 @@ class HomeController extends AbstractController
     {
         $this->security = $security;
     }
-
     /**
      * @Route("/", name="home")
      */
